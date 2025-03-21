@@ -1,0 +1,36 @@
+CREATE DATABASE loan_management;
+USE loan_management;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE loans (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    amount DECIMAL(10, 2) NOT NULL,
+    interest_rate DECIMAL(5, 2) NOT NULL,
+    term INT NOT NULL,
+    start_date DATE NOT NULL,
+    status ENUM('active', 'closed') DEFAULT 'active',
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    loan_id INT,
+    payment_date DATE NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (loan_id) REFERENCES loans(id)
+);
+
+ALTER TABLE loans ADD COLUMN borrower_name VARCHAR(255) NOT NULL;
+
+ALTER TABLE loans MODIFY COLUMN status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending';
+
+SELECT id, user_id, amount, status FROM loans;
+
+UPDATE loans SET status = 'pending' WHERE status NOT IN ('approved', 'rejected', 'pending');
