@@ -58,18 +58,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"> Loan Management  Admin</a>
+            <a class="navbar-brand" href="dashboard.php"> Loan Management  Admin</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="user.php">Borrowers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="loan_plans.php">Loan Plans</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Loan_types.php">Loan Types</a></li>
-                    <li class="nav-item"><a class="nav-link" href="add_loan.php">Add Loan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.php">dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user.php">borrowers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="loan_plans.php">loan plans</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Loan_types.php">loan types</a></li>
+                    <li class="nav-item"><a class="nav-link" href="add_loan.php">add loan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calculator.php">calculator</a></li>
                 </ul>
             </div>
         </div>
@@ -108,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
                         <!-- application form para sa user--- Bootstrap-->
-                        <!--<form class="row g-3">
+                      <!--  <form class="row g-3">
   <div class="col-md-4">
     <label for="validationDefault01" class="form-label">First name</label>
     <input type="text" class="form-control" id="validationDefault01" value="Mark" required>
@@ -149,6 +150,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div class="col-12">
     <button class="btn btn-primary" type="submit">Submit form</button>
+  </div>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+    <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+    <div class="invalid-feedback">Example invalid custom file feedback</div>
   </div>
 </form>-->
     
