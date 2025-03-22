@@ -61,11 +61,8 @@ $result = $conn->query($query);
             </div>
         </div>
     </nav>
-    <div>
-        <img href="about.php" src="img/BANNER1.jpg" class="img-fluid" alt="...">
-        </div>
         
-            <div class="card-header bg-dark text-white text-center">
+            <div class="card-header bg-primary text-white text-center">
                 <h3>Borrowers' Status</h3>
             </div>
             <div class="card-body">
