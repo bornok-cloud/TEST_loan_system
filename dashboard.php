@@ -130,10 +130,46 @@ $result = $conn->query($query);
             </div>
         </div>
     </nav>
-        <div>
+        <!--<div>
         <img href="about.php" src="img/BANNER1.jpg" class="img-fluid" alt="...">
-        </div>
-        
+        </div>-->
+    <!-- SLIDER PART-->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="img/BANNER1.jpg" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="img/BANNER_CITY.jpg" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="img/BANNER_SUMMER.jpg" alt="Third slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only"></span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only"></span>
+  </a>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#carouselExampleIndicators').carousel({
+      interval: 1000,
+    });
+    $('#carouselExampleIndicators').on('slid.bs.carousel', function () {
+      console.log("Slide changed!");
+    });
+  });
+</script>
+<!--SLIDER PART -->
     <div class="container mt-4">
         <h2 class="text-center"><!--____________________________________________________________________________________--></h2>
         <div data-aos="fade-right">
