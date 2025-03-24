@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color:rgb(212, 212, 212); 
+            color: rgb(0, 0, 0); 
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -19,27 +25,43 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
+                        <a class="nav-link" href="dashboard.php">dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="user.php">Borrowers</a>
+                        <a class="nav-link" href="user.php">borrowers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="loan_plans.php">Loan Plans</a>
+                        <a class="nav-link" href="loan_plans.php">loan plans</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Loan_types.php">Loan Types</a>
+                        <a class="nav-link" href="Loan_types.php">loan types</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="add_loan.php">Add Loan</a>
+                        <a class="nav-link" href="add_loan.php">add loan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="LOGIN1.php">Logout</a>
+                        <a class="nav-link" href="LOGIN1.php">logout</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calculator.php">calculator</a>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </nav>
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
+
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Try scrolling the rest of the page to see this option in action.</p>
+  </div>
+</div>
 
     <!-- Loan Calculator -->
     <div class="container mt-5 pt-5">
@@ -70,8 +92,7 @@
                                     $loanAmount = $_POST['loanAmount'];
                                     $interestRate = $_POST['interestRate'];
                                     $loanTerm = $_POST['loanTerm'];
-
-                                    // Validate inputs
+                                
                                     if (is_numeric($loanAmount) && is_numeric($interestRate) && is_numeric($loanTerm) && $loanTerm > 0) {
                                         $monthlyInterestRate = ($interestRate / 100) / 12;
                                         $numberOfPayments = $loanTerm * 12;
