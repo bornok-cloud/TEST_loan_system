@@ -5,7 +5,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }*/
 
-require 'db.php';
+include ('../../db_file/db.php');
 $totalLoans = $conn->query("SELECT COUNT(*) as count FROM loans")->fetch_assoc()['count'];
 $activeLoans = $conn->query("SELECT COUNT(*) as count FROM loans WHERE status='rejected'")->fetch_assoc()['count'];
 $paidLoans = $conn->query("SELECT COUNT(*) as count FROM loans WHERE status='pending'")->fetch_assoc()['count'];
@@ -26,69 +26,7 @@ $result = $conn->query($query);
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            background-color:rgb(212, 212, 212); 
-            color: rgb(0, 0, 0); 
-        }
-        h2 {
-            text-shadow: 0 0 3px rgb(0, 0, 0), 0 0 5px rgb(0, 0, 0);
-            margin-bottom: 3;
-            padding: 0;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-        }
-        .navbar {
-            margin-bottom: 0px;
-        }
-        .navbar-nav .nav-link {
-            padding: 8px 15px;
-            font-size: 16px;
-        }
-        .navbar-brand img {
-            width: 40px;
-            height: 40px;
-        }
-        .table {
-            text-align: left;
-        }
-        .clearfix {
-            margin-top: 40px;
-        }
-        .card-body p {
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-        .card-img-top {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .card-body {
-            padding: 10px;
-            justify-content: flex-end;
-        }
-
-        .card-title {
-            font-size: 23px;
-            font-weight: bold;
-        }
-
-        .card-text {
-            margin: 15px 0;
-        }
-        .row {
-            display: flex;
-            justify-content: space-evenly; 
-            gap: 90px;
-            align-items: center; 
-        }
-        table, th, td {
-            border: 20px solid black;
-        }
-    </style>
+    <style scr="../../stylekuno/userdashboard.css"></style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -96,7 +34,7 @@ $result = $conn->query($query);
             <!--<a class="navbar-brand" href="dashboard.php">
                 <img src="#" alt="UNIQLOAN Logo" class="img-fluid"> 
             </a>-->
-            <a>UNIQLOAN</a>
+            <a>UniqLoan Management</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -104,9 +42,6 @@ $result = $conn->query($query);
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user.php">borrowers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="loan_plans.php">loan plans</a>
@@ -121,7 +56,7 @@ $result = $conn->query($query);
                         <a class="nav-link" href="about.php">about</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="LOGIN1.php">Logout</a>
+                        <a class="nav-link" href="../LOGIN1.php">Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="calculator.php">calculator</a>
@@ -133,42 +68,33 @@ $result = $conn->query($query);
         <!--<div>
         <img href="about.php" src="img/BANNER1.jpg" class="img-fluid" alt="...">
         </div>-->
-    <!-- SLIDER PART-->
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="img/BANNER1.jpg" alt="First slide">
+        <!-- SLIDER PART-->
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+        <img class="d-block w-100" src="../../img/BANNER1.jpg" alt="First slide">
+        </div>
+        <div class="carousel-item">
+        <img class="d-block w-100" src="../../img/BANNER_CITY.jpg" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+        <img class="d-block w-100" src="../../img/BANNER_SUMMER.jpg" alt="Third slide">
+        </div>
     </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="img/BANNER_CITY.jpg" alt="Second slide">
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only"></span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only"></span>
+    </a>
     </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="img/BANNER_SUMMER.jpg" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only"></span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only"></span>
-  </a>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  $(document).ready(function () {
-    $('#carouselExampleIndicators').carousel({
-      interval: 1000,
-    });
-    $('#carouselExampleIndicators').on('slid.bs.carousel', function () {
-      console.log("Slide changed!");
-    });
-  });
-</script>
+    <script src="../../javascript/carousel.js"></script>
 <!--SLIDER PART -->
     <div class="container mt-4">
         <h2 class="text-center"><!--____________________________________________________________________________________--></h2>
@@ -243,31 +169,31 @@ $result = $conn->query($query);
     <div class="container mt-4">
     <div class="row d-flex justify-content-center align-items-center mt-4">
     
-    <div id="b1" class="card" style="width: 18rem;">
-  <img src="img/banner2.jpg" class="card-img-top " alt="...">
-  <div class="card-body ">
-    <h5 class="card-title">LOAN TYPES</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="Loan_types.php" class="btn btn-dark stretched-link">Go somewhere</a>
-  </div>
-</div>
-<div id="b2" class="card" style="width: 18rem;">
-  <img src="img/banner3.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Free to browse</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="dashboard.php" class="btn btn-dark stretched-link">Go somewhere</a>
-  </div>
-</div>
-<div id="b3" class="card" style="width: 18rem;">
-  <img src="img/banner2.jpg" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">ADD LOAN</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="add_loan.php" class="btn btn-dark stretched-link">Go somewhere</a>
-  </div>
-</div>
-</div>
+        <div id="b1" class="card" style="width: 18rem;">
+    <img src="img/banner2.jpg" class="card-img-top " alt="...">
+    <div class="card-body ">
+        <h5 class="card-title">LOAN TYPES</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="Loan_types.php" class="btn btn-dark stretched-link">Go somewhere</a>
+    </div>
+    </div>
+    <div id="b2" class="card" style="width: 18rem;">
+    <img src="img/banner3.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Free to browse</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="dashboard.php" class="btn btn-dark stretched-link">Go somewhere</a>
+    </div>
+    </div>
+    <div id="b3" class="card" style="width: 18rem;">
+    <img src="img/banner2.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">ADD LOAN</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="add_loan.php" class="btn btn-dark stretched-link">Go somewhere</a>
+    </div>
+    </div>
+    </div>
 
     <script>
         const ctx = document.getElementById('loanChart').getContext('2d');

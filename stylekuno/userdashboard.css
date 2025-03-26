@@ -1,0 +1,61 @@
+body {
+    background-color:rgb(212, 212, 212); 
+    color: rgb(0, 0, 0); 
+}
+h2 {
+    text-shadow: 0 0 3px rgb(0, 0, 0), 0 0 5px rgb(0, 0, 0);
+    margin-bottom: 3;
+    padding: 0;
+}
+.card {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+}
+.navbar {
+    margin-bottom: 0px;
+}
+.navbar-nav .nav-link {
+    padding: 8px 15px;
+    font-size: 16px;
+}
+.navbar-brand img {
+    width: 40px;
+    height: 40px;
+}
+.table {
+    text-align: left;
+}
+.clearfix {
+    margin-top: 40px;
+}
+.card-body p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 10px;
+    justify-content: flex-end;
+}
+
+.card-title {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.card-text {
+    margin: 15px 0;
+}
+.row {
+    display: flex;
+    justify-content: space-evenly; 
+    gap: 90px;
+    align-items: center; 
+}
+table, th, td {
+    border: 20px solid black;
+}

@@ -41,7 +41,7 @@
                 <img src="#" alt="UNIQLOAN Logo" class="img-fluid"> 
             </a>-->
             
-            <a class="navbar-brand" href="dashboard.php"> Loan Management  Admin</a>
+            <a class="navbar-brand" href="dashboard.php">UniqLoan Management</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,9 +49,6 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user.php">borrowers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="loan_plans.php">loan plans</a>

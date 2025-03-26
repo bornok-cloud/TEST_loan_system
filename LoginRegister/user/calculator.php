@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../stylekuno/usercalculator.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -18,7 +18,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.php">Loan Management Admin</a>
+            <a class="navbar-brand" href="dashboard.php">UniqLoan Management</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,9 +26,6 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="dashboard.php">dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user.php">borrowers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="loan_plans.php">loan plans</a>
@@ -40,7 +37,7 @@
                         <a class="nav-link" href="add_loan.php">add loan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="LOGIN1.php">logout</a>
+                        <a class="nav-link" href="logout.php">logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="calculator.php">calculator</a>
