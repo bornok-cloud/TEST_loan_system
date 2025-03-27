@@ -1,0 +1,6 @@
+.navbar-brand img {
+    width: 40px;  /* Adjust the size of the logo */
+    height: 40px; /* Make sure it's square */
+    border-radius: 50%; /* This will make it circular */
+    margin-right: 10px; /* Add some space between the logo and the text */
+}

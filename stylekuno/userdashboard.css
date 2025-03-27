@@ -3,7 +3,7 @@ body {
     color: rgb(0, 0, 0); 
 }
 h2 {
-    text-shadow: 0 0 3px rgb(0, 0, 0), 0 0 5px rgb(0, 0, 0);
+    text-shadow: 0 0 3px rgb(255, 255, 255), 0 0 5px rgb(255, 255, 255);
     margin-bottom: 3;
     padding: 0;
 }

@@ -12,43 +12,40 @@
             background-color:rgb(212, 212, 212); 
             color: rgb(0, 0, 0); 
         }
+        .navbar-brand img {
+            width: 70px;  
+            height: 70px;
+            border-radius: 80%; 
+            margin-right: 20px;
+            margin-left:20px;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<a class="navbar-brand" href="dashboard.php">
+                <img src="../../img/uniqloan_logo.jpg" alt="Logo"> UniqLoan Management
+            </a>
         <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.php">UniqLoan Management</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="loan_plans.php">loan plans</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Loan_types.php">loan types</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="add_loan.php">add loan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="calculator.php">calculator</a>
-                    </li>
-
+                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.php">dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="loan_plans.php">loan plans</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Loan_types.php">loan types</a></li>
+                    <li class="nav-item"><a class="nav-link" href="payment.php">payment</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calculator.php">calculator</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
+    <!--<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
 
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
   <div class="offcanvas-header">
@@ -58,7 +55,7 @@
   <div class="offcanvas-body">
     <p>Try scrolling the rest of the page to see this option in action.</p>
   </div>
-</div>
+</div>-->
 
     <!-- Loan Calculator -->
     <div class="container mt-5 pt-5">

@@ -1,0 +1,32 @@
+body {
+    background-color:rgb(212, 212, 212); 
+    color: rgb(0, 0, 0); 
+}
+h2 {
+    text-shadow: 0 0 3px rgb(0, 0, 0), 0 0 5px rgb(0, 0, 0);
+    margin-bottom: 3;
+    padding: 0;
+}
+.navbar {
+    margin-bottom: 0px;
+}
+.navbar-nav .nav-link {
+    padding: 8px 15px;
+    font-size: 16px;
+}
+.navbar-brand img {
+    width: 40px;
+    height: 40px;
+}
+h5{
+    text-shadow: 0 0 3px rgb(0, 0, 0), 0 0 5px rgb(0, 0, 0);
+    margin-bottom: 3;
+    padding: 0;
+}
+.navbar-brand img {
+    width: 70px;  /* Adjust the size of the logo */
+    height: 70px; /* Make sure it's square */
+    border-radius: 80%; /* This will make it circular */
+    margin-right: 20px; /* Add some space between the logo and the text */
+    margin-left:20px;
+}

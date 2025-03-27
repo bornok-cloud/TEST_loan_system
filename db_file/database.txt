@@ -35,19 +35,71 @@ SELECT id, user_id, amount, status FROM loans;
 
 UPDATE loans SET status = 'pending' WHERE status NOT IN ('approved', 'rejected', 'pending');
 
-CREATE DATABASE uniqloan;
-
-USE uniqloan;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    usertype ENUM('user', 'admin') DEFAULT 'user'
-);
-
 
 -- Alter the 'usertype' column to ENUM('user', 'admin')
 ALTER TABLE users
 MODIFY COLUMN usertype ENUM('user', 'admin') DEFAULT 'user';
+
+
+
+
+
+
+<_______UPDATED DATABASE________>
+
+
+
+
+
+CREATE DATABASE loan_management;
+
+USE loan_management;
+
+CREATE TABLE `loan_applications` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address TEXT NOT NULL,
+    loan_amount DECIMAL(10, 2) NOT NULL,
+    income DECIMAL(10, 2) NOT NULL,
+    loan_duration INT NOT NULL, -- duration in months
+    employment_status ENUM('employed', 'self-employed', 'unemployed', 'retired') NOT NULL,
+    interest_rate DECIMAL(5, 2) NOT NULL,
+    status ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    loan_type VARCHAR(50) NOT NULL,
+    min_loan_amount INT NOT NULL,
+    max_loan_amount INT NOT NULL
+);
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    usertype ENUM('user', 'admin') DEFAULT 'user'
+);
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    usertype ENUM('user', 'admin') DEFAULT 'admin'
+);
+
+DELIMITER $$
+
+CREATE TRIGGER after_user_insert
+AFTER INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF NEW.usertype = 'admin' THEN
+        INSERT INTO admins (id, username, password, email, usertype)
+        VALUES (NEW.id, NEW.username, NEW.password, NEW.email, NEW.usertype);
+    END IF;
+END $$
+
+DELIMITER ;

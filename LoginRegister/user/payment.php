@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style src="../../stylekuno/userloan_plan.css"></style>
     <style>
         .navbar-brand img {
-            width: 70px;  
-            height: 70px;
+            width: 70px; 
+            height: 70px; 
             border-radius: 80%;
             margin-right: 20px; 
             margin-left:20px;
@@ -39,15 +37,5 @@
             </div>
         </div>
     </nav>
-    <!--<div class="card text-bg-dark">
-  <img src="../../img/BANNER1.jpg" class="card-img" alt="...">
-  <div class="card-img-overlay">
-    <h5 class="card-title">Page for Loan Plans</h5>
-    <p class="card-text"></p>
-    <p class="card-text"><small></small></p>
-  </div>-->
-
-  <h1></h1>
-</div>
 </body>
 </html>

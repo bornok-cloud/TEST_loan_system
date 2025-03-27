@@ -68,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <li class="nav-item"><a class="nav-link" href="loan_plans.php">loan plans</a></li>
                     <li class="nav-item"><a class="nav-link" href="Loan_types.php">loan types</a></li>
                     <li class="nav-item"><a class="nav-link" href="add_loan.php">add loan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>
                     <li class="nav-item"><a class="nav-link" href="calculator.php">calculator</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>
                 </ul>
             </div>
         </div>
