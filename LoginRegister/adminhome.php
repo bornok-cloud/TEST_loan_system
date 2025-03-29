@@ -19,11 +19,11 @@ $approveLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications WH
 
 // Fetch the loan details including statuses (joining the users table in the LoanManagement database)
 $query = "SELECT loan_type, loan_amount, status, name 
-          FROM LoanApplication.loan_applications 
+          FROM loan_management.loan_applications 
           JOIN Loan_Management.users ON loan_applications.name = name
           WHERE loan_applications.status = 'approved'
           GROUP BY name"; 
-$result = $conn->query($query);
+$result = mysqli_query($conn,$query);
 
 ?>
 

@@ -1,10 +1,12 @@
+<?php include('../../includes/header.php')?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Types</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style scr="../../stylekuno/userloan_type.css" ></style>
     <style>
         .navbar-brand img {
@@ -14,10 +16,10 @@
             margin-right: 20px; 
             margin-left:20px;
         }
-    </style>
+    </style> -->
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <a class="navbar-brand" href="dashboard.php">
                 <img src="../../img/uniqloan_logo.jpg" alt="Logo"> UniqLoan Management
             </a>
@@ -37,7 +39,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav>-->
 
     <div class="container mt-4">
         <div class="row card-columns justify-content-center">
@@ -78,7 +80,9 @@
             </div>
         </div>
     </div>
+    <?php include('../../includes/sidebar.php')?>
+    <?php include('../../includes/script.php')?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
 </body>
 </html>
