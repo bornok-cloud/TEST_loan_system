@@ -1,111 +1,132 @@
+<?php include('../../includes/header.php')?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Calculator</title>
-    <link rel="stylesheet" href="../../stylekuno/usercalculator.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background-color:rgb(212, 212, 212); 
-            color: rgb(0, 0, 0); 
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
         }
-        .navbar-brand img {
-            width: 70px;  
-            height: 70px;
-            border-radius: 80%; 
-            margin-right: 20px;
-            margin-left:20px;
+        .container {
+            max-width: 900px;
         }
+        .calculator {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .result-card {
+            background: #fdf3e6;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .loan-terms button {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            margin: 5px;
+            background: white;
+            cursor: pointer;
+        }
+        .loan-terms button.active {
+            background: #16a34a;
+            color: white;
+        }
+        .apply-btn {
+            background: #16a34a;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            text-align: center;
+            float: right;
+        }
+        .center-btn {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            width: 30%; /* Adjust width as necessary */
+            margin-top: 70px; /* Add top margin if needed */
+            margin-left: 472px;
+        }
+
+        
+
+            
+        
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-<a class="navbar-brand" href="dashboard.php">
-                <img src="../../img/uniqloan_logo.jpg" alt="Logo"> UniqLoan Management
-            </a>
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="profile.php">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="dashboard.php">dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="loan_plans.php">loan plans</a></li>
-                    <li class="nav-item"><a class="nav-link" href="Loan_types.php">loan types</a></li>
-                    <li class="nav-item"><a class="nav-link" href="payment.php">payment</a></li>
-                    <li class="nav-item"><a class="nav-link" href="calculator.php">calculator</a></li>
-                    <li class="nav-item"><a class="nav-link" href="logout.php">logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<a href="registration.php">
+  <button type="button" id="apply_btn" class="btn btn-danger btn-lg btn-block center-btn">Register to apply for cash loan</button>
+</a>
 
-    <!--<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Enable both scrolling & backdrop</button>
-
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <p>Try scrolling the rest of the page to see this option in action.</p>
-  </div>
-</div>-->
-
-    <!-- Loan Calculator -->
-    <div class="container mt-5 pt-5">
-        <div class="row justify-content-center">
+    <div class="container mt-5">
+        <h3 class="text-center text-danger">Need A Quick Personal Loan?</h3>
+        <h1 class="text-center">Try Our Cash Loan Calculator</h1>
+        <p class="text-center">Want cash and need to know how much your online loan’s monthly payments will be?</p>
+        <div class="row mt-4">
             <div class="col-md-6">
-                <div class="calculator card p-4">
-                    <h1 class="text-center mb-4">Loan Calculator</h1>
-                    <form id="loanForm" method="POST" action="">
-                        <div class="form-group mb-3">
-                            <label for="loanAmount">Loan Amount (₱):</label>
-                            <input Placeholder="Loan Amount" type="number" class="form-control" id="loanAmount" name="loanAmount" required>
+                <div class="calculator">
+                    <h4><i class="fa-solid fa-wallet text-success"></i> Get a sample cash loan computation</h4>
+                    <label for="loanAmount" class="form-label">How much money do you need?</label>
+                    <input type="number" id="loanAmount" class="form-control" value="30000" min="3000" max="150000">
+                    <input type="range" id="loanRange" class="form-range mt-2" min="3000" max="150000" value="30000">
+                    <p class="text-muted">Loan amount starts at ₱3,000 up to ₱150,000</p>
+                    <div class="loan-terms">
+                        <p>Sample Loan Terms (months)</p>
+                        <div>
+                            <button class="term-btn" data-term="6">6</button>
+                            <button class="term-btn" data-term="9">9</button>
+                            <button class="term-btn" data-term="12">12</button>
+                            <button class="term-btn active" data-term="24">24</button>
+                            <button class="term-btn" data-term="30">30</button>
+                            <button class="term-btn" data-term="36">36</button>
+                            <button class="term-btn" data-term="45">45</button>
+                            <button class="term-btn" data-term="48">48</button>
+                            <button class="term-btn" data-term="60">60</button>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="interestRate">Interest Rate (%):</label>
-                            <input Placeholder="Interest Rate" type="number" class="form-control" id="interestRate" name="interestRate" step="0.01" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="loanTerm">Loan Term (years):</label>
-                            <input Placeholder="Loan Term(Years)" type="number" class="form-control" id="loanTerm" name="loanTerm" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100" name="calculate">Calculate</button>
-                    </form>
-                    <div id="result" class="result mt-4">
-                        <h2 class="text-center">Monthly Payment: 
-                            <span id="monthlyPayment" class="fw-bold text-primary">
-                                <?php
-                                if (isset($_POST['calculate'])) {
-                                    $loanAmount = $_POST['loanAmount'];
-                                    $interestRate = $_POST['interestRate'];
-                                    $loanTerm = $_POST['loanTerm'];
-                                
-                                    if (is_numeric($loanAmount) && is_numeric($interestRate) && is_numeric($loanTerm) && $loanTerm > 0) {
-                                        $monthlyInterestRate = ($interestRate / 100) / 12;
-                                        $numberOfPayments = $loanTerm * 12;
-                                        $monthlyPayment = ($loanAmount * $monthlyInterestRate) / (1 - pow(1 + $monthlyInterestRate, -$numberOfPayments));
-                                        echo "₱" . number_format($monthlyPayment, 2);
-                                    } else {
-                                        echo "Invalid input";
-                                    }
-                                }
-                                ?>
-                            </span>
-                        </h2>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="result-card">
+                    <table class="table">
+                        <tr>
+                            <td>Loan Term</td>
+                            <td id="selectedTerm">24 months</td>
+                        </tr>
+                        <tr>
+                            <td>Loan Amount</td>
+                            <td id="selectedAmount">₱30,000</td>
+                        </tr>
+                        <tr>
+                            <td>Processing Fee <i class="fa-solid fa-info-circle"></i></td>
+                            <td>-₱500</td>
+                        </tr>
+                        <tr>
+                            <td>Amount to be Disbursed</td>
+                            <td id="disbursedAmount">₱29,500</td>
+                        </tr>
+                    </table>
+                    <h5 class="text-center">Estimated Monthly Installment</h5>
+                    <h2 class="text-center text-success fw-bold" id="monthlyInstallment">₱1,965.59 per month</h2>
+                    <a href="#" class="apply-btn"><b>Check if you are qualified for a cash loan</b></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--<script src="calcu.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+       <?php include('../../includes/sidebar.php')?>
+       <?php include('../../includes/footer.php')?>
+    <?php include('../../includes/script.php')?>
+
 </body>
 </html>

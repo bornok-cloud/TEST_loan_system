@@ -204,7 +204,7 @@ h1, h2, h3, h4, h5, h6 {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item "><a class="nav-link" href="">Home</a></li>
+                    <li class="nav-item "><a class="nav-link" href="../../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
                     <li class="nav-item">

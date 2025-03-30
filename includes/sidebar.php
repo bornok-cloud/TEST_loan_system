@@ -54,10 +54,10 @@
 </head>
 
 <div id="sidebar" class="p-3">
-        <h4>Dashboard <button id="sidebarClose" class="btn btn-outline-dark ">☰</button></h4> 
+<h4>Dashboard <button id="sidebarClose" class="btn btn-outline-dark ">☰</button></h4> 
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="../../index.php">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="LoginRegister/user/loan_plans.php">Loan Plans</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../LoginRegister/user/loan_types.php">Loan Types</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
         </ul>
        

@@ -44,7 +44,7 @@
     <div class="container mt-4">
         <div class="row card-columns justify-content-center">
             <!-- Car loan card -->
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-1 col-12">
                 <div id="b1" class="card">
                     <img src="../../img/carloan.jpg" class="card-img-top" alt="Car loan">
                     <div class="card-body">
@@ -80,7 +80,9 @@
             </div>
         </div>
     </div>
+    
     <?php include('../../includes/sidebar.php')?>
+    <?php include('../../includes/footer.php')?>
     <?php include('../../includes/script.php')?>
 
     <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
