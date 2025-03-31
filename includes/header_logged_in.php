@@ -213,8 +213,8 @@ h1, h2, h3, h4, h5, h6 {
                     <li class="nav-item dropdown">
                         <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../../LoginRegister/user/login.php">Login</a></li>
-                            <li><a class="dropdown-item" href="../../LoginRegister/user/registration.php">Register</a></li>
+                            <li><a class="dropdown-item" href="../../LoginRegister/user/login.php">Manage Account</a></li>
+                        
                         </ul>
                     </li>
                 </ul>
