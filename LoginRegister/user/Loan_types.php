@@ -41,7 +41,7 @@
         </div>
     </nav>-->
 
-    <div class="container mt-4">
+    <div class="container mt-2">
         <div class="row card-columns justify-content-center">
             <!-- Car loan card -->
             <div class="col-md-4 col-sm-1 col-12">
@@ -50,7 +50,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Car Loan</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/CARLOAN.php" class="btn btn-dark stretched-link">Go somewhere</a>
+                        <a href="loantype_section/CARLOAN.php" class=""></a>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Home Loan</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/HOMELOAN.php" class="btn btn-dark stretched-link">Go somewhere</a>
+                        <a href="loantype_section/HOMELOAN.php" class=""></a>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Appliance Loan</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/APPLIANCELOAN.php" class="btn btn-dark stretched-link">Go somewhere</a>
+                        <a href="loantype_section/APPLIANCELOAN.php" class=""></a>
                     </div>
                 </div>
             </div>

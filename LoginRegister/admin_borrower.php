@@ -1,4 +1,5 @@
 <?php
+include('../includes/header.php');
 $host = 'localhost';
 $db = 'loan_management'; 
 $user = 'root';
@@ -9,7 +10,6 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-session_start();
 
 // Fetch loan application data from the database
 $query = "SELECT * FROM loan_applications"; 
@@ -66,22 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="dashboard.php"> Loan Management Admin</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="adminhome.php">dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin_borrower.php">borrowers</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin_calculator.php">calculator</a></li>
-                <li class="nav-item"><a class="nav-link" href="LOGIN1.php">logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
 <div class="container mt-5">
     <div class="card shadow">
@@ -153,4 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<?php include('../includes/sidebar.php'); ?>
+<?php include('../includes/script.php'); ?>
 </html>

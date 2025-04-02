@@ -64,21 +64,21 @@
 </head>
 <body>
 <a href="registration.php">
-  <button type="button" id="apply_btn" class="btn btn-danger btn-lg btn-block center-btn">Register to apply for cash loan</button>
+  <button type="button" id="apply_btn" class="btn btn-success btn-lg btn-block center-btn">Register to apply for cash loan</button>
 </a>
 
     <div class="container mt-5">
-        <h3 class="text-center text-danger">Need A Quick Personal Loan?</h3>
+        <h3 class="text-center text-dark">Need A Quick Personal Loan?</h3>
         <h1 class="text-center">Try Our Cash Loan Calculator</h1>
         <p class="text-center">Want cash and need to know how much your online loan’s monthly payments will be?</p>
-        <div class="row mt-4">
+        <div class="row mt-3">
             <div class="col-md-6">
                 <div class="calculator">
-                    <h4><i class="fa-solid fa-wallet text-success"></i> Get a sample cash loan computation</h4>
+                    <h4><i class="fa-solid fa-wallet text-danger"></i> Get a sample cash loan computation</h4>
                     <label for="loanAmount" class="form-label">How much money do you need?</label>
                     <input type="number" id="loanAmount" class="form-control" value="30000" min="3000" max="150000">
-                    <input type="range" id="loanRange" class="form-range mt-2" min="3000" max="150000" value="30000">
-                    <p class="text-muted">Loan amount starts at ₱3,000 up to ₱150,000</p>
+                    <input type="range" id="loanRange" class="form-range mt-2" min="5000" max="100000" value="30000">
+                    <p class="text-muted">Loan amount starts at ₱5,000 up to ₱100,000</p>
                     <div class="loan-terms">
                         <p>Sample Loan Terms (months)</p>
                         <div>
@@ -116,8 +116,8 @@
                         </tr>
                     </table>
                     <h5 class="text-center">Estimated Monthly Installment</h5>
-                    <h2 class="text-center text-success fw-bold" id="monthlyInstallment">₱1,965.59 per month</h2>
-                    <a href="#" class="apply-btn"><b>Check if you are qualified for a cash loan</b></a>
+                    <h2 class="text-center text-dark fw-bold" id="monthlyInstallment">₱1,965.59 per month</h2>
+                    <a href="#" class="apply-btn btn btn-danger"><b>Check if you are qualified for a cash loan</b></a>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 session_start();
 include('../../db_file/db_connection.php');
 
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -34,7 +35,7 @@ function sendemail_verify($name,$email,$verify_token)
         <h5>Verify your email address to login with the link given below.</h5>
         <h1> VERIFIED </h1>
         <br/><br/>
-        <a href='http://localhost/LOAN_MANAGEMENT_SYSTEM/LoginRegister/user/logged_in/dashboard.php?token=$verify_token'>click me</a>
+        <a href='http://localhost/LOAN_MANAGEMENT_SYSTEM/LoginRegister/user/verify-email.php?token=$verify_token'>click me</a>
     ";
 
     $mail->Body    = $email_template;
@@ -50,6 +51,7 @@ if(isset($_POST['register_btn']))
     $email = $_POST['email'];
     $password = $_POST['password'];
     $verify_token = md5(rand());
+    
 
     // email exist or not
     $check_email_query = "SELECT email FROM users WHERE email='$email' LIMIT 1";

@@ -3,6 +3,7 @@
 
     $page_title = 'Registration Form';
     ?>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +62,7 @@
         </div>
     </nav>
 
-<div class="py-5">
+<div class="py-4">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -96,7 +97,7 @@
                             <label class="form-label">Password</label>
                             <input type="text" name="password" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <button type="submit" name="register_btn" class="btn btn-primary">Register now</button>
                         </div>
                     </form>
@@ -109,5 +110,6 @@
 
 <?php include('../../includes/sidebar.php'); ?>
 <?php include('../../includes/script.php'); ?>
+<?php include('../../includes/footer.php')?>
 </body>
 </html>

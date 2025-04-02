@@ -103,3 +103,32 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
+
+
+
+
+
+
+
+<______________________________________ LOAN DATABASE STRUCTURE ______________________________________>
+
+unilolo769@gmail.com
+app password: wxvx wgvl nctu esti
+
+
+
+CREATE DATABASE loan_system;
+
+USE loan_system;
+
+CREATE TABLE users (
+    full_name VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    verify_token VARCHAR(255) NOT NULL,
+    is_verified TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

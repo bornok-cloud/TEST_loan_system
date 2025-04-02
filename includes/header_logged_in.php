@@ -214,6 +214,7 @@ h1, h2, h3, h4, h5, h6 {
                         <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="../../LoginRegister/user/login.php">Manage Account</a></li>
+                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                         
                         </ul>
                     </li>

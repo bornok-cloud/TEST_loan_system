@@ -1,4 +1,5 @@
 <?php
+ include('../includes/header.php'); 
 $host = 'localhost';
 $db = 'loan_management'; 
 $user = 'root';
@@ -9,8 +10,6 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-session_start();
 
 $totalLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications")->fetch_assoc()['count'];
 $activeLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications WHERE status='rejected'")->fetch_assoc()['count'];
@@ -38,7 +37,7 @@ $result = mysqli_query($conn,$query);
     <style src="../stylekuno/admindashboard.css"></style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <h1 class="navbar-brand" href="dashboard.php"> Loan Management Admin</h1>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -53,7 +52,7 @@ $result = mysqli_query($conn,$query);
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->
 
 <div class="container mt-4">
     <h2 class="text-center">Loan Statistics</h2>
@@ -134,6 +133,8 @@ $result = mysqli_query($conn,$query);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
+<?php include('../includes/sidebar.php'); ?>
+<?php include('../includes/script.php'); ?>
 </html>
 
 <?php
