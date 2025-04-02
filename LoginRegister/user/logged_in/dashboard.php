@@ -127,12 +127,16 @@
                             <label for="loan-purpose">Purpose of Loan</label>
                             <select id="loan-purpose" class="form-control" required>
                                 <option value="">Select Purpose</option>
-                                <option value="Establishing Credit History">Establishing Credit History</option>
-                                <option value="Home Maintenance">Home Maintenance</option>
-                                <option value="Medical Expenses">Medical Expenses</option>
-                                <option value="Business">Business</option>
+                               
+                                <option value="Home Maintenance">Home Maintenance loan</option>
+                                <option value="Medical Expenses">Medical Expenses loan</option>
+                                <option value="Business">Business loan</option>
+                                <option value="Business">Auto loan</option>
+                                <option value="Business">Home loan</option>
+                                <option value="Business">Home Appliance loan</option>
                             </select>
                         </div>
+                        
                         <button type="button" class="btn btn-danger prev-step">Previous</button>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </fieldset>
