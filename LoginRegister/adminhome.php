@@ -1,5 +1,5 @@
 <?php
- include('../includes/header.php'); 
+ include('../includes/admin_header.php'); 
 $host = 'localhost';
 $db = 'loan_management'; 
 $user = 'root';
@@ -133,7 +133,7 @@ $result = mysqli_query($conn,$query);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
-<?php include('../includes/sidebar.php'); ?>
+<?php include('../includes/admin_sidebar.php'); ?>
 <?php include('../includes/script.php'); ?>
 </html>
 
