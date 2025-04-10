@@ -70,12 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
 <div class="container mt-5">
     <div class="card shadow">
-        <div class="card-header bg-dark text-white text-center">
+        <div class="card-header bg-danger text-white text-center">
             <h3>Borrowers' Status</h3>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-striped">
-                <thead class="table-warning">
+                <thead class="table-light">
                     <tr>
                         <th>Name</th>
                         <th>Phone</th>

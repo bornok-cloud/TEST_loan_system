@@ -19,7 +19,7 @@ function sendemail_verify($name,$email,$verify_token)
 
     $mail->Host       = 'smtp.gmail.com';
     $mail->Username   = 'unilolo769@gmail.com';                   
-    $mail->Password   = 'wxvx wgvl nctu esti'; 
+    $mail->Password   = 'ahlh zrrh xzql yoxx'; 
 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
     $mail->Port       = 587;   
