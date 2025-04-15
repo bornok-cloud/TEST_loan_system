@@ -132,3 +132,34 @@ CREATE TABLE users (
     is_verified TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE loan_applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    -- User Reference (No FK constraint)
+    user_id INT NOT NULL,
+
+    -- Step 1: Personal Details
+    full_name VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(20) NOT NULL,
+    dob DATE NOT NULL,
+    gender ENUM('Male', 'Female') NOT NULL,
+
+    -- Step 2: Address & ID
+    address TEXT NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
+    valid_id_type VARCHAR(100) NOT NULL,
+    id_number VARCHAR(50) NOT NULL,
+    id_photo_path VARCHAR(255) NOT NULL,
+
+    -- Step 3: Loan Purpose
+    loan_amount DECIMAL(10,2) NOT NULL,
+    loan_purpose VARCHAR(255) NOT NULL,
+
+    -- Application Status
+    status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+
+    -- Timestamp
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

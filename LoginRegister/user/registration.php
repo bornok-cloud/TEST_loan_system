@@ -50,13 +50,13 @@
                     <li class="nav-item">
                         <a class="btn btn-danger ms-4" href="#">Payment</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="login.php">Login</a></li>
                             <li><a class="dropdown-item" href="../../LoginRegister/user/registration.php">Register</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

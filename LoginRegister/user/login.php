@@ -51,6 +51,8 @@
                         
                         <div class="form-group mb-1">
                             <button type="submit" name="login_now_btn" class="btn btn-primary mb-5">Login</button>
+
+                            <a href="password-reset.php" class="float-end">Forgot Your Password?</a>
                         </div>
                         <hr>
                         <h6>

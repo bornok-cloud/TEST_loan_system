@@ -679,13 +679,7 @@ h1, h2, h3, h4, h5, h6 {
                     <li class="nav-item">
                         <a class="btn btn-danger ms-4" href="#">Payment</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="LoginRegister/user/login.php">Login</a></li>
-                            <li><a class="dropdown-item" href="LoginRegister/user/registration.php">Register</a></li>
-                        </ul>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -734,12 +728,12 @@ h1, h2, h3, h4, h5, h6 {
 				<img class="postcard__img" src="img/ID.jpg" alt="Image Title" />
 			</a>
 			<div class="postcard__text t-dark">
-				<h1 class="postcard__title blue"><a href="#">Valid ID</a></h1>
+				<h1 class="postcard__title blue"><a href="LoginRegister/user/valid.php">Valid ID</a></h1>
 				<div class="postcard__subtitle small">
 				</div>
 				<!--<div class="postcard__bar"></div>-->
 				<div class="postcard__preview-txt mt-5">Must have one primary ID that contains your current address.</div>
-                <a href="#"><i class="fas fa-play mr-2"></i>View list of ID</a>
+                <a href="LoginRegister/user/valid.php"><i class="fas fa-play mr-2"></i>View list of ID</a>
             </div>
 		</article>
 		<article class="postcard light red">
@@ -770,6 +764,10 @@ h1, h2, h3, h4, h5, h6 {
             <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="LoginRegister/user/loan_types.php">Loan Types</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+            <hr class="my-3">
+            <h5 class="mt-0 text-danger"> Account </h5>
+            <li><a class="nav-item"><a class="nav-link" href="LoginRegister/user/login.php">Login</a></li>
+            <li><a class="nav-item"><a class="nav-link" href="LoginRegister/user/registration.php">Register</a></li>
         </ul>
        
     </div>    

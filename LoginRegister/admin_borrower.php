@@ -1,7 +1,7 @@
 <?php
-include('../includes/header.php');
+//include('../includes/header.php');
 $host = 'localhost';
-$db = 'loan_management'; 
+$db = 'loan_system'; 
 $user = 'root';
 $pass = '';
 
@@ -11,49 +11,54 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch loan application data from the database
-$query = "SELECT * FROM loan_applications"; 
+$query = "SELECT * FROM loan_applications ORDER BY id DESC"; 
 $result = $conn->query($query);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'update') {
-        // Handle the edit action
-        $loan_id = intval($_POST['loan_id']);
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $address = $_POST['address'];
-        $loan_amount = $_POST['loan_amount'];
-        $income = $_POST['income'];
-        $loan_duration = $_POST['loan_duration'];
-        $employment_status = $_POST['employment_status'];
+        $loan_id = intval($_POST['id']);
+        $name = $conn->real_escape_string($_POST['full_name']);
+        $phone = $conn->real_escape_string($_POST['contact_number']);
+        $address = $conn->real_escape_string($_POST['address']);
+        $vidtype = $conn->real_escape_string($_POST['valid_id_type']);
+        $vidphoto = $conn->real_escape_string($_POST['id_photo_path']);
+        $loan_amount = floatval($_POST['loan_amount']);
+        $loanpurpose = $conn->real_escape_string($_POST['loan_purpose']);
 
-        $stmt = $conn->prepare("UPDATE loan_applications SET name = ?, email = ?, phone = ?, address = ?, loan_amount = ?, income = ?, loan_duration = ?, employment_status = ? WHERE id = ?");
-        $stmt->bind_param("ssssdsdsi", $name, $email, $phone, $address, $loan_amount, $income, $loan_duration, $employment_status, $loan_id);
+        $stmt = $conn->prepare("UPDATE loan_applications SET 
+            full_name = ?, 
+            contact_number = ?, 
+            address = ?, 
+            valid_id_type = ?, 
+            id_photo_path = ?, 
+            loan_amount = ?, 
+            loan_purpose = ? 
+            WHERE id = ?");
+        
+        $stmt->bind_param("sssssdsi", $name, $phone, $address, $vidtype, $vidphoto, $loan_amount, $loanpurpose, $loan_id);
         
         if ($stmt->execute()) {
-            echo "<div class='alert alert-success'>User information updated successfully.</div>";
+            $_SESSION['message'] = "<div class='alert alert-success'>Loan application updated successfully.</div>";
         } else {
-            echo "<div class='alert alert-danger'>Error updating user information: " . $conn->error . "</div>";
+            $_SESSION['message'] = "<div class='alert alert-danger'>Error updating application: " . $conn->error . "</div>";
         }
         $stmt->close();
+        header("Location: admin_borrower.php");
+        exit();
     } elseif ($_POST['action'] == 'approve' || $_POST['action'] == 'reject') {
-        // Handle the approve/reject action
         $loan_id = intval($_POST['loan_id']);
-        $status = ($_POST['action'] === 'approve') ? 'approved' : 'rejected';
+        $status = ($_POST['action'] === 'approve') ? 'Approved' : 'Rejected';
 
-        // Update loan status in the database
         $stmt = $conn->prepare("UPDATE loan_applications SET status = ? WHERE id = ?");
         $stmt->bind_param("si", $status, $loan_id);
         $stmt->execute();
         $stmt->close();
 
-        // Redirect to refresh the page
+        $_SESSION['message'] = "<div class='alert alert-success'>Application has been $status.</div>";
         header("Location: admin_borrower.php");
         exit();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -63,75 +68,166 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Borrowers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
-
-
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <button id="sidebarToggle" class="btn btn-outline-dark">☰</button>
+            <a class="navbar-brand text-danger fw-bold ms-4" href="#">UNIQLOAN</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item "><a class="nav-link" href="../../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                    <li class="nav-item">
+                        <a class="btn btn-danger ms-4" href="#">Payment</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-outline-dark toggle ms-1" href="../LoginRegister/user/login.php" role="button">Log out</a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 <div class="container mt-5">
+    <?php if (isset($_SESSION['message'])): ?>
+        <?= $_SESSION['message'] ?>
+        <?php unset($_SESSION['message']); ?>
+    <?php endif; ?>
+    
     <div class="card shadow">
         <div class="card-header bg-danger text-white text-center">
-            <h3>Borrowers' Status</h3>
+            <h3>Loan Applications</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered table-striped">
-                <thead class="table-light">
-                    <tr>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Loan Amount</th>
-                        <th>Income</th>
-                        <th>Loan Duration</th>
-                        <th>Loan Type</th>
-                        <th>Employment Status</th>
-                        <th>Interest Rate</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-light">
                         <tr>
-                            <td><?= htmlspecialchars($row['name']) ?></td>
-                            <td><?= htmlspecialchars($row['phone']) ?></td>
-                            <td><?= htmlspecialchars($row['address']) ?></td>
-                            <td><?= $row['loan_amount'] ? '₱' . htmlspecialchars($row['loan_amount']) : 'No Loan' ?></td>
-                            <td><?= htmlspecialchars($row['income']) ?></td>
-                            <td><?= htmlspecialchars($row['loan_duration']) ?> months</td>
-                            <td><?= htmlspecialchars($row['loan_type']) ?></td>
-                            <td><?= htmlspecialchars($row['employment_status']) ?></td>
-                            <td><?= htmlspecialchars($row['interest_rate']) ?>%</td>
-                            <td><?= htmlspecialchars($row['status']) ?></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $row['id'] ?>">Edit</button>
-                                <form method="POST" class="d-inline">
-                                    <input type="hidden" name="loan_id" value="<?= $row['id'] ?>">
-                                    <button type="submit" name="action" value="approve" class="btn btn-success btn-sm">Approve</button>
-                                    <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
-                                </form>
-                                <div class="modal fade" id="editModal<?= $row['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel">Edit Borrower Information</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="POST" action="admin_borrower.php">
-                                                    <input type="hidden" name="loan_id" value="<?= $row['id'] ?>">
-                                                    <!-- Form fields... -->
-                                                    <button type="submit" name="action" value="update" class="btn btn-primary">Update</button>
-                                                </form>
-                                            </div>
+                            <th>Reference Number</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>ID Type</th>
+                            <th>Loan Amount</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['reference_number']) ?></td>
+                                <td><?= htmlspecialchars($row['full_name']) ?></td>
+                                <td><?= htmlspecialchars($row['contact_number']) ?></td>
+                                <td><?= htmlspecialchars($row['dob']) ?></td>
+                                <td><?= htmlspecialchars($row['gender']) ?></td>
+                                <td><?= htmlspecialchars($row['address']) ?>, <?= htmlspecialchars($row['postal_code']) ?></td>
+                                <td><?= htmlspecialchars($row['valid_id_type']) ?>: <?= htmlspecialchars($row['id_number']) ?></td>
+                                <td>₱<?= number_format($row['loan_amount'], 2) ?></td>
+                                <td><?= htmlspecialchars($row['loan_purpose']) ?></td>
+                                <td>
+                                    <span class="badge 
+                                        <?= $row['status'] == 'Approved' ? 'bg-success' : 
+                                           ($row['status'] == 'Rejected' ? 'bg-danger' : 'bg-warning') ?>">
+                                        <?= htmlspecialchars($row['status']) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <?= date('M d, Y h:i A', strtotime($row['application_date'])) ?>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column gap-2">
+                                        <!-- Edit Button -->
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $row['id'] ?>">
+                                            <i class="bi bi-pencil"></i> Edit
+                                        </button>
+                                        
+                                        <!-- Action Buttons -->
+                                        <div class="d-flex gap-1">
+                                            <form method="POST" class="flex-grow-1">
+                                                <input type="hidden" name="loan_id" value="<?= $row['id'] ?>">
+                                                <button type="submit" name="action" value="approve" class="btn btn-success btn-sm w-100" 
+                                                    <?= $row['status'] == 'Approved' ? 'disabled' : '' ?>>
+                                                    <i class="bi bi-check-circle"></i> Approve
+                                                </button>
+                                            </form>
+                                            <form method="POST" class="flex-grow-1">
+                                                <input type="hidden" name="loan_id" value="<?= $row['id'] ?>">
+                                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm w-100"
+                                                    <?= $row['status'] == 'Rejected' ? 'disabled' : '' ?>>
+                                                    <i class="bi bi-x-circle"></i> Reject
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="editModal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Application #<?= $row['id'] ?></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST">
+                                                <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Full Name</label>
+                                                    <input type="text" class="form-control" name="full_name" value="<?= htmlspecialchars($row['full_name']) ?>" required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Contact Number</label>
+                                                    <input type="text" class="form-control" name="contact_number" value="<?= htmlspecialchars($row['contact_number']) ?>" required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Address</label>
+                                                    <textarea class="form-control" name="address" required><?= htmlspecialchars($row['address']) ?></textarea>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">ID Type</label>
+                                                    <input type="text" class="form-control" name="valid_id_type" value="<?= htmlspecialchars($row['valid_id_type']) ?>" required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Loan Amount</label>
+                                                    <input type="number" step="0.01" class="form-control" name="loan_amount" value="<?= $row['loan_amount'] ?>" required>
+                                                </div>
+                                                
+                                                <div class="mb-3">
+                                                    <label class="form-label">Loan Purpose</label>
+                                                    <input type="text" class="form-control" name="loan_purpose" value="<?= htmlspecialchars($row['loan_purpose']) ?>" required>
+                                                </div>
+                                                
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" name="action" value="update" class="btn btn-primary">Save Changes</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                            </div>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -141,3 +237,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 <?php include('../includes/admin_sidebar.php'); ?>
 <?php include('../includes/script.php'); ?>
 </html>
+<?php $conn->close(); ?>

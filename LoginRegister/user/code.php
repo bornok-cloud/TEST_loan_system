@@ -33,7 +33,7 @@ function sendemail_verify($name,$email,$verify_token)
     $email_template ="
         <h2>You have Registered with Uniqloan Management</h2>
         <h5>Verify your email address to login with the link given below.</h5>
-        <h1> VERIFIED </h1>
+        <h1> VERIFY YOUR EMAIL. </h1>
         <br/><br/>
         <a href='http://localhost/LOAN_MANAGEMENT_SYSTEM/LoginRegister/user/verify-email.php?token=$verify_token'>click me</a>
     ";

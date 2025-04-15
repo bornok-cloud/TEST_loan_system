@@ -6,4 +6,8 @@ if (!isset($_SESSION['authenticated'])) {
     header('Location: login.php');
     exit(0);
 }
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 ?>

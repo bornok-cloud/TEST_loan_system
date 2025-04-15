@@ -195,32 +195,42 @@ h1, h2, h3, h4, h5, h6 {
 </style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <button id="sidebarToggle" class="btn btn-outline-dark">☰</button>
-            <a class="navbar-brand text-danger fw-bold ms-4" href="#">UNIQLOAN</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item "><a class="nav-link" href="../../index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger ms-4" href="#">Payment</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../../LoginRegister/user/login.php">Manage Account</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                        
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <button id="sidebarToggle" class="btn btn-outline-dark">☰</button>
+        <a class="navbar-brand text-danger fw-bold ms-4" href="#">UNIQLOAN</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="../../../index.php">Home</a></li>
+                
+                <li class="nav-item">
+    <a class="nav-link <?php echo !isset($_SESSION['loan_reference_number']) ? 'text-muted' : ''; ?>" 
+       href="application_success.php">
+       My Application
+       <?php if(isset($_SESSION['loan_reference_number'])): ?>
+           (<?php echo $_SESSION['loan_reference_number']; ?>)
+       <?php endif; ?>
+    </a>
+</li>
+                
+                <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                <li class="nav-item">
+                    <a class="btn btn-danger ms-4" href="#">Payment</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
+
 
 </body>

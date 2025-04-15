@@ -1,7 +1,9 @@
 <?php
- include('../includes/admin_header.php'); 
+include('../includes/admin_header.php'); 
+
+// Connect to the correct database (loan_system instead of loan_management)
 $host = 'localhost';
-$db = 'loan_management'; 
+$db = 'loan_system';  // Changed from loan_management to loan_system
 $user = 'root';
 $pass = '';
 
@@ -11,19 +13,17 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Count queries - all pointing to loan_system database
 $totalLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications")->fetch_assoc()['count'];
 $activeLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications WHERE status='rejected'")->fetch_assoc()['count'];
 $paidLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications WHERE status='pending'")->fetch_assoc()['count'];
 $approveLoans = $conn->query("SELECT COUNT(*) as count FROM loan_applications WHERE status='approved'")->fetch_assoc()['count'];
 
-// Fetch the loan details including statuses (joining the users table in the LoanManagement database)
-$query = "SELECT loan_type, loan_amount, status, name 
-          FROM loan_management.loan_applications 
-          JOIN Loan_Management.users ON loan_applications.name = name
-          WHERE loan_applications.status = 'approved'
-          GROUP BY name"; 
-$result = mysqli_query($conn,$query);
-
+// Fetch loan details - simplified to use the correct database
+$query = "SELECT full_name as name, loan_amount, status 
+          FROM loan_applications 
+          WHERE status = 'approved'";
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -37,28 +37,12 @@ $result = mysqli_query($conn,$query);
     <style src="../stylekuno/admindashboard.css"></style>
 </head>
 <body>
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <h1 class="navbar-brand" href="dashboard.php"> Loan Management Admin</h1>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="adminhome.php">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin_borrower.php">Borrowers</a></li>
-                <li class="nav-item"><a class="nav-link" href="admin_calculator.php">Calculator</a></li>
-                <li class="nav-item"><a class="nav-link" href="LOGIN1.php">Logout</a></li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
 
 <div class="container mt-4">
     <h2 class="text-center">Loan Statistics</h2>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-black bg-warning mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Loans</h5>
@@ -66,7 +50,7 @@ $result = mysqli_query($conn,$query);
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-black bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Approved Loans</h5>
@@ -74,7 +58,7 @@ $result = mysqli_query($conn,$query);
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-black bg-danger mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Rejected Loans</h5>
@@ -82,7 +66,7 @@ $result = mysqli_query($conn,$query);
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-black bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Pending Loans</h5>
@@ -92,46 +76,97 @@ $result = mysqli_query($conn,$query);
         </div>
     </div>
 
-    <canvas id="loanChart"></canvas>
-    
-    <div class="card-body mt-4">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>User Name</th>
-                    <th>Loan Amount</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td>₱<?= htmlspecialchars($row['loan_amount']) ?></td>
-                        <td><span class="badge bg-success"><?= htmlspecialchars($row['status']) ?></span></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <canvas id="loanChart" height="200"></canvas>
+        </div>
     </div>
+    
+    <div class="card mt-4">
+        <div class="card-header bg-dark text-white">
+            <h4>Approved Loans</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>User Name</th>
+                            <th>Loan Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['name']) ?></td>
+                                <td>₱<?= number_format($row['loan_amount'], 2) ?></td>
+                                <td><span class="badge bg-success"><?= ucfirst(htmlspecialchars($row['status'])) ?></span></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script>
+<script>
+    // Enhanced chart with better styling
+    document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('loanChart').getContext('2d');
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
-                labels: ['Total Loans', 'Rejected Loans', 'Pending Loans', 'Approved Loans'],
+                labels: ['Total Loans', 'Approved', 'Rejected', 'Pending'],
                 datasets: [{
                     label: 'Loan Statistics',
-                    data: [<?php echo $totalLoans; ?>, <?php echo $activeLoans; ?>, <?php echo $paidLoans; ?>, <?php echo $approveLoans; ?>],
-                    backgroundColor: ['#06D001', '#FF6347', '#FFD700', '#32CD32'],
+                    data: [
+                        <?php echo $totalLoans; ?>,
+                        <?php echo $approveLoans; ?>,
+                        <?php echo $activeLoans; ?>,
+                        <?php echo $paidLoans; ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
                 }]
             },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Loan Application Statistics',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
-    </script>
+    });
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 <?php include('../includes/admin_sidebar.php'); ?>
 <?php include('../includes/script.php'); ?>

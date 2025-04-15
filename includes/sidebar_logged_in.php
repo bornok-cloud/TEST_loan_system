@@ -56,13 +56,13 @@
 <div id="sidebar" class="p-3">
 <h4>Dashboard <button id="sidebarClose" class="btn btn-outline-dark ">☰</button></h4> 
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="../../index.php">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="../../LoginRegister/user/loan_types.php">Loan Types</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../index.php">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="../../../LoginRegister/user/loan_types.php">Loan Types</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
             <hr class="my-3">
             <h5 class="mt-0 text-danger"> Account </h5>
-            <li><a class="nav-item"><a class="nav-link" href="../../LoginRegister/user/login.php">Login</a></li>
-            <li><a class="nav-item"><a class="nav-link" href="../../LoginRegister/user/registration.php">Register</a></li>
+            <li><a class="nav-item"><a class="nav-link" href="../../../LoginRegister/user/login.php">Login</a></li>
+            <li><a class="nav-item"><a class="nav-link" href="../../../LoginRegister/user/registration.php">Register</a></li>
         </ul>
        
     </div>
