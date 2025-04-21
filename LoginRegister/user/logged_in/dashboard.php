@@ -15,7 +15,7 @@
     <style>
         /* Professional Stepper Styles */
         .stepper-container {
-            width: 70%;
+            width: 80%;
             padding: 1rem 0;
             margin: 0 auto;
         }
@@ -140,8 +140,32 @@
             color: #0d6efd;
         }
         
+        /* Collateral Styles */
+        .collateral-card {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+        }
+        
+        .collateral-card h5 {
+            margin-bottom: 15px;
+        }
+        
+        .collateral-image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
+            .stepper-container {
+                width: 100%;
+            }
+            
             .step-label {
                 font-size: 12px;
                 max-width: 80px;
@@ -214,9 +238,15 @@
                     <div class="step-label">Loan Details</div>
                 </div>
                 
-                <!-- Step 4 -->
+                <!-- Step 4 (New Collateral Step) -->
                 <div class="step" data-step="4">
                     <div class="step-circle">4</div>
+                    <div class="step-label">Collateral</div>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="step" data-step="5">
+                    <div class="step-circle">5</div>
                     <div class="step-label">Terms</div>
                 </div>
             </div>
@@ -376,8 +406,67 @@
                         </div>
                     </fieldset>
                     
-                    <!-- Step 4: Terms and Conditions -->
+                    <!-- Step 4: Collateral Information -->
                     <fieldset class="step-form" id="step-4">
+                        <h3 class="text-center">Collateral Information</h3>
+                        <p class="text-center text-muted mb-4">Please provide details about the collateral you're offering for this loan</p>
+                        
+                        <div class="collateral-card">
+                            <div class="form-group">
+                                <label for="collateral-type">Type of Collateral</label>
+                                <select id="collateral-type" name="collateral_type" class="form-control" required>
+                                    <option value="">Select Collateral Type</option>
+                                    <option value="Real Estate">Real Estate Property</option>
+                                    <option value="Vehicle">Vehicle</option>
+                                    <option value="Jewelry">Jewelry</option>
+                                    <option value="Electronics">High-value Electronics</option>
+                                    <option value="Other">Other Valuables</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a collateral type.</div>
+                            </div>
+                            
+                            <div class="form-group mt-3">
+                                <label for="collateral-description">Description</label>
+                                <textarea id="collateral-description" name="collateral_description" class="form-control" rows="3" placeholder="Provide detailed description including make, model, year, condition, etc." required></textarea>
+                                <div class="invalid-feedback">Please provide a detailed description of your collateral.</div>
+                            </div>
+                            
+                            <div class="form-group mt-3">
+                                <label for="collateral-value">Estimated Value (PHP)</label>
+                                <input type="number" id="collateral-value" name="collateral_value" class="form-control" placeholder="Estimated market value" min="1000" required>
+                                <div class="invalid-feedback">Please provide a valid estimated value (minimum ₱1,000).</div>
+                            </div>
+                            
+                            <div class="form-group mt-3">
+                                <label for="collateral-ownership">Proof of Ownership</label>
+                                <select id="collateral-ownership" name="collateral_ownership" class="form-control" required>
+                                    <option value="">Select Proof of Ownership</option>
+                                    <option value="Title Deed">Title Deed</option>
+                                    <option value="OR/CR">Official Receipt/Certificate of Registration</option>
+                                    <option value="Sales Invoice">Sales Invoice</option>
+                                    <option value="Other">Other Document</option>
+                                </select>
+                                <div class="invalid-feedback">Please select proof of ownership.</div>
+                            </div>
+                            
+                            <div class="form-group mt-3">
+                                <label for="collateral-images" class="form-label">Upload Collateral Images</label>
+                                <input class="form-control" type="file" id="collateral-images" name="collateral_images[]" accept="image/*" multiple required>
+                                <div class="invalid-feedback">Please upload at least one clear image of the collateral.</div>
+                                <small class="form-text text-muted">Upload clear photos from different angles (Max 5MB per image)</small>
+                                
+                                <div id="collateral-preview-container" class="mt-2"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn btn-danger prev-step">Previous</button>
+                            <button type="button" class="btn btn-primary" id="next-step-4">Next</button>
+                        </div>
+                    </fieldset>
+                    
+                    <!-- Step 5: Terms and Conditions -->
+                    <fieldset class="step-form" id="step-5">
                         <h3 class="text-center">Terms and Conditions</h3>
                         
                         <div class="terms-container">
@@ -387,9 +476,10 @@
                             <p><strong>3. Repayment:</strong> You agree to repay the loan amount plus interest according to the agreed schedule.</p>
                             <p><strong>4. Late Payments:</strong> Late payments will incur additional fees as specified in the loan agreement.</p>
                             <p><strong>5. Default:</strong> Failure to repay may result in legal action and affect your credit score.</p>
-                            <p><strong>6. Data Privacy:</strong> We collect and process your personal data in accordance with our Privacy Policy.</p>
-                            <p><strong>7. Approval:</strong> Loan approval is subject to verification of your information and credit assessment.</p>
-                            <p><strong>8. Changes:</strong> We reserve the right to modify these terms with prior notice.</p>
+                            <p><strong>6. Collateral:</strong> The collateral provided may be seized if you default on your loan payments.</p>
+                            <p><strong>7. Data Privacy:</strong> We collect and process your personal data in accordance with our Privacy Policy.</p>
+                            <p><strong>8. Approval:</strong> Loan approval is subject to verification of your information and credit assessment.</p>
+                            <p><strong>9. Changes:</strong> We reserve the right to modify these terms with prior notice.</p>
                         </div>
                         
                         <div class="form-check terms-checkbox">
@@ -423,7 +513,7 @@
             const INTEREST_RATE = 0.05; // 5% annual interest rate
             
             let currentStep = 1;
-            const totalSteps = 4;
+            const totalSteps = 5;
             
             // Initialize stepper and loan calculation
             updateStepper(currentStep);
@@ -490,6 +580,32 @@
                 $('#display-total-repayment').text(formatCurrency(totalRepayment));
                 $('#display-monthly-payment').text(formatCurrency(monthlyPayment));
             }
+            
+            // Preview collateral images
+            $('#collateral-images').on('change', function() {
+                const files = this.files;
+                const container = $('#collateral-preview-container');
+                container.empty();
+                
+                if (files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        if (file.type.match('image.*')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                container.append(
+                                    '<div class="mb-2">' +
+                                    '<img src="' + e.target.result + '" class="collateral-image-preview img-thumbnail" style="display: block; max-width: 200px; max-height: 150px;">' +
+                                    '<small>' + file.name + ' (' + Math.round(file.size / 1024) + 'KB)</small>' +
+                                    '</div>'
+                                );
+                                $('.collateral-image-preview').fadeIn();
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                }
+            });
             
             // Recalculate when amount or term changes
             $('#loan-amount, #loan-term').on('input change', function() {
@@ -650,8 +766,72 @@
                 return isValid;
             }
             
-            // Validate step 4 (Terms and Conditions)
+            // Validate step 4 (Collateral)
             function validateStep4() {
+                let isValid = true;
+                clearAllInvalid();
+                
+                const collateralValue = parseFloat($('#collateral-value').val());
+                const collateralImages = $('#collateral-images')[0].files;
+                
+                if (!$('#collateral-type').val()) {
+                    $('#collateral-type').addClass('is-invalid');
+                    $('#collateral-type').next('.invalid-feedback').show();
+                    isValid = false;
+                }
+                
+                if (!$('#collateral-description').val()) {
+                    $('#collateral-description').addClass('is-invalid');
+                    $('#collateral-description').next('.invalid-feedback').show();
+                    isValid = false;
+                }
+                
+                if (!collateralValue || isNaN(collateralValue)) {
+                    $('#collateral-value').addClass('is-invalid');
+                    $('#collateral-value').next('.invalid-feedback').show();
+                    isValid = false;
+                } else if (collateralValue < 1000) {
+                    $('#collateral-value').addClass('is-invalid');
+                    $('#collateral-value').next('.invalid-feedback').text('Collateral value must be at least ₱1,000.').show();
+                    isValid = false;
+                }
+                
+                if (!$('#collateral-ownership').val()) {
+                    $('#collateral-ownership').addClass('is-invalid');
+                    $('#collateral-ownership').next('.invalid-feedback').show();
+                    isValid = false;
+                }
+                
+                if (!collateralImages || collateralImages.length === 0) {
+                    $('#collateral-images').addClass('is-invalid');
+                    $('#collateral-images').next('.invalid-feedback').show();
+                    isValid = false;
+                } else {
+                    // Validate each image
+                    for (let i = 0; i < collateralImages.length; i++) {
+                        const file = collateralImages[i];
+                        const validTypes = ['image/jpeg', 'image/png'];
+                        const maxSize = 5 * 1024 * 1024; // 5MB
+                        
+                        if (!validTypes.includes(file.type)) {
+                            $('#collateral-images').addClass('is-invalid');
+                            $('#collateral-images').next('.invalid-feedback').text('Please upload valid image files (JPG or PNG only).').show();
+                            isValid = false;
+                            break;
+                        } else if (file.size > maxSize) {
+                            $('#collateral-images').addClass('is-invalid');
+                            $('#collateral-images').next('.invalid-feedback').text('Each image must be less than 5MB.').show();
+                            isValid = false;
+                            break;
+                        }
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // Validate step 5 (Terms and Conditions)
+            function validateStep5() {
                 let isValid = true;
                 clearAllInvalid();
                 
@@ -698,6 +878,17 @@
                 }
             });
             
+            $('#next-step-4').click(function() {
+                if (validateStep4()) {
+                    currentStep = 5;
+                    updateStepper(currentStep);
+                    $('#step-4').removeClass('active');
+                    $('#step-5').addClass('active');
+                    $('#current-step').val(currentStep);
+                    clearValidation();
+                }
+            });
+            
             $('.prev-step').click(function() {
                 currentStep -= 1;
                 updateStepper(currentStep);
@@ -710,8 +901,8 @@
             
             // Form validation before submit
             $('#multi-step-form').on('submit', function(e) {
-                if (currentStep === 4) {
-                    if (!validateStep4()) {
+                if (currentStep === 5) {
+                    if (!validateStep5()) {
                         e.preventDefault();
                         return false;
                     }
@@ -719,7 +910,7 @@
                     // Show loading state
                     const submitBtn = $('#submit-application');
                     submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
-                    
+                                
                     // Additional validation if needed
                     if (!validateStep1() || !validateStep2() || !validateStep3() || !validateStep4()) {
                         e.preventDefault();

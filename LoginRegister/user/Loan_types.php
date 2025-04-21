@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Types</title>
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style scr="../../stylekuno/userloan_type.css" ></style>
     <style>
         .navbar-brand img {
@@ -16,7 +16,7 @@
             margin-right: 20px; 
             margin-left:20px;
         }
-    </style> -->
+    </style>
 </head>
 <body class="bg-light">
 <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -41,40 +41,40 @@
         </div>
     </nav>-->
 
-    <div class="container mt-2">
+    <div class="container mt-4">
         <div class="row card-columns justify-content-center">
             <!-- Car loan card -->
-            <div class="col-md-4 col-sm-1 col-12">
+            <div class="col-md-4 col-sm-1 col-12 mb-5">
                 <div id="b1" class="card">
                     <img src="../../img/carloan.jpg" class="card-img-top" alt="Car loan">
                     <div class="card-body">
                         <h5 class="card-title">Car Loan</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/CARLOAN.php" class=""></a>
+                        <p class="card-text"></p>
+                        <a href="loantype_section/CARLOAN.php" class="">check details</a>
                     </div>
                 </div>
             </div>
 
             <!-- Home loan card -->
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12 mb-5">
                 <div id="b2" class="card">
                     <img src="../../img/homeloan.jpg" class="card-img-top" alt="Home loan">
                     <div class="card-body">
                         <h5 class="card-title">Home Loan</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/HOMELOAN.php" class=""></a>
+                        <p class="card-text"></p>
+                        <a href="loantype_section/HOMELOAN.php" class="">check details</a>
                     </div>
                 </div>
             </div>
 
             <!-- Appliance loan card -->
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-4 col-sm-6 col-12 mb-5">
                 <div id="b3" class="card">
                     <img src="../../img/applianceloan.jpg" class="card-img-top" alt="Appliance loan">
                     <div class="card-body">
                         <h5 class="card-title">Appliance Loan</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="loantype_section/APPLIANCELOAN.php" class=""></a>
+                        <p class="card-text"></p>
+                        <a href="loantype_section/APPLIANCELOAN.php" class="">check details</a>
                     </div>
                 </div>
             </div>
@@ -82,9 +82,10 @@
     </div>
     
     <?php include('../../includes/sidebar.php')?>
-    <?php include('../../includes/footer.php')?>
     <?php include('../../includes/script.php')?>
 
     <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+    <?php include('../../includes/footer.php')?>
+
 </body>
 </html>

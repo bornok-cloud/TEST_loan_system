@@ -157,9 +157,20 @@ CREATE TABLE loan_applications (
     loan_amount DECIMAL(10,2) NOT NULL,
     loan_purpose VARCHAR(255) NOT NULL,
 
+    -- Step 4: Collateral Loan
+
+
     -- Application Status
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
 
     -- Timestamp
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+ALTER TABLE loan_applications
+ADD COLUMN type_of_collateral VARCHAR(100) NOT NULL AFTER loan_purpose,
+ADD COLUMN description TEXT AFTER type_of_collateral,
+ADD COLUMN estimated_value DECIMAL(12,2) NOT NULL AFTER description,
+ADD COLUMN proof_of_ownership VARCHAR(255) AFTER estimated_value,
+ADD COLUMN image_path VARCHAR(255) AFTER proof_of_ownership;

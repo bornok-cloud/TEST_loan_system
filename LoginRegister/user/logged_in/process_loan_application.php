@@ -29,6 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $loan_amount = (float) $_POST['loan_amount'];
     $loan_purpose = mysqli_real_escape_string($con, $_POST['loan_purpose']);
     
+    // Corrected field names to match form
+    $collateraltype = mysqli_real_escape_string($con, $_POST['collateral_type']);
+    $collateraldesc = mysqli_real_escape_string($con, $_POST['collateral_description']);
+    $estimated_value = (float) $_POST['collateral_value'];
+    $ownership = mysqli_real_escape_string($con, $_POST['collateral_ownership']);
+    
     // Log data for debugging
     error_log("Processing form data: " . json_encode($_POST));
     
@@ -69,10 +75,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
+    // Handle collateral image upload - corrected for multiple file upload handling
+    $collateral_image = ''; // Changed variable name to match your database column
+    if (isset($_FILES['collateral_images']) && $_FILES['collateral_images']['error'][0] == UPLOAD_ERR_OK) {
+        $upload_dir = '../../../uploads/';
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        // Process the first image (index 0)
+        $collateral_ext = strtolower(pathinfo($_FILES['collateral_images']['name'][0], PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png'];
+        
+        if (!in_array($collateral_ext, $allowed_ext)) {
+            $_SESSION['message'] = "Only JPG, JPEG, and PNG files are allowed for collateral.";
+            $_SESSION['message_type'] = "danger";
+            header('Location: index.php');
+            exit();
+        }
+
+        $collateral_filename = 'collateral_' . $user_id . '_' . time() . '.' . $collateral_ext;
+        $collateral_path = $upload_dir . $collateral_filename;
+
+        if (move_uploaded_file($_FILES['collateral_images']['tmp_name'][0], $collateral_path)) {
+            $collateral_image = 'uploads/' . $collateral_filename; // Changed variable name to match your database column
+        } else {
+            error_log("Failed to move collateral image: " . print_r($_FILES['collateral_images'], true));
+            $_SESSION['message'] = "Failed to upload collateral image. Error: " . $_FILES['collateral_images']['error'][0];
+            $_SESSION['message_type'] = "danger";
+            header('Location: index.php');
+            exit();
+        }
+    } else {
+        $error_code = isset($_FILES['collateral_images']) ? $_FILES['collateral_images']['error'][0] : 'no file';
+        error_log("Collateral image upload error. Code: $error_code");
+        $_SESSION['message'] = "Collateral image upload failed. Error code: $error_code";
+        $_SESSION['message_type'] = "danger";
+        header('Location: dashboard.php');
+        exit();
+    }
+
     // Process ID photo upload
-    $id_photo_path = '';
+    $image_path = ''; // Changed variable name to match your database column
     if (isset($_FILES['id_photo']) && $_FILES['id_photo']['error'] == 0) {
-        $upload_dir = '../../../uploads/id_documents/';
+        $upload_dir = '../../../uploads/';
         
         // Check if directory exists, if not create it
         if (!is_dir($upload_dir)) {
@@ -123,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         // Store relative path in database
-        $id_photo_path = 'uploads/id_documents/' . $new_filename;
+        $image_path = 'uploads/' . $new_filename; // Changed variable name to match your database column
     } else {
         // Log error details
         error_log("File upload error: " . (isset($_FILES['id_photo']) ? $_FILES['id_photo']['error'] : 'No file uploaded'));
@@ -143,61 +189,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $application_date = date('Y-m-d H:i:s');
     
     try {
-        // Check if table exists
-        $table_check = $con->query("SHOW TABLES LIKE 'loan_applications'");
-        if ($table_check->num_rows == 0) {
-            // Create table if it doesn't exist
-            $create_table_sql = "CREATE TABLE IF NOT EXISTS `loan_applications` (
-                `id` int(11) NOT NULL AUTO_INCREMENT,
-                `user_id` int(11),
-                `reference_number` varchar(50) NOT NULL,
-                `full_name` varchar(255) NOT NULL,
-                `contact_number` varchar(50) NOT NULL,
-                `dob` date NOT NULL,
-                `gender` varchar(10) NOT NULL,
-                `address` text NOT NULL,
-                `postal_code` varchar(10) NOT NULL,
-                `valid_id_type` varchar(50) NOT NULL,
-                `id_number` varchar(50) NOT NULL,
-                `id_photo_path` varchar(255) NOT NULL,
-                `loan_amount` decimal(10,2) NOT NULL,
-                `loan_purpose` varchar(100) NOT NULL,
-                `status` varchar(20) NOT NULL DEFAULT 'Pending',
-                `application_date` datetime NOT NULL,
-                `processed_date` datetime DEFAULT NULL,
-                `remarks` text DEFAULT NULL,
-                PRIMARY KEY (`id`),
-                UNIQUE KEY `reference_number` (`reference_number`),
-                KEY `user_id` (`user_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
-            
-            if (!$conn->query($create_table_sql)) {
-                throw new Exception("Failed to create table: " . $conn->error);
-            }
-        }
-        
-        // Insert into database
+        // Prepare the SQL statement with the correct column names from your database
         $sql = "INSERT INTO loan_applications (
-                    user_id, reference_number, full_name, contact_number, dob, gender, 
-                    address, postal_code, valid_id_type, id_number, id_photo_path, 
-                    loan_amount, loan_purpose, status, application_date
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-                )";
+            user_id, reference_number, full_name, contact_number, dob, gender, 
+            address, postal_code, valid_id_type, id_number, id_photo_path, 
+            loan_amount, loan_purpose, type_of_collateral, description, 
+            estimated_value, proof_of_ownership, collateral_image,
+            status, application_date
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )";
         
-        // Prepare statement
         $stmt = $con->prepare($sql);
-        
         if (!$stmt) {
-            throw new Exception("Prepare failed: " . $conn->error);
+            throw new Exception("Prepare failed: " . $con->error);
         }
         
-        // Bind parameters
+        // Bind parameters with the correct parameter types and count
         $stmt->bind_param(
-            "issssssssssdsss",
+            "issssssssssdssdsssss", 
             $user_id, $reference_number, $full_name, $contact_number, $dob, $gender,
-            $address, $postal_code, $valid_id_type, $id_number, $id_photo_path,
-            $loan_amount, $loan_purpose, $status, $application_date
+            $address, $postal_code, $valid_id_type, $id_number, $image_path,
+            $loan_amount, $loan_purpose, $collateraltype, $collateraldesc, 
+            $estimated_value, $ownership, $collateral_image,
+            $status, $application_date
         );
         
         // Execute statement
@@ -207,7 +222,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Store reference number in session for use on success page
         $_SESSION['loan_reference_number'] = $reference_number;
-
         
         // Close statement
         $stmt->close();

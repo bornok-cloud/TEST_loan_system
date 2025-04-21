@@ -69,6 +69,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     <title>Admin Borrowers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .img-thumbnail {
+            max-width: 150px;
+            max-height: 120px;
+            object-fit: contain;
+        }
+        .view-image-modal-img {
+            max-width: 100%;
+            max-height: 80vh;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -80,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item "><a class="nav-link" href="../../index.php">Home</a></li>
+                    <li class="nav-item "><a class="nav-link" href="adminhome.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
                     <li class="nav-item">
@@ -115,9 +126,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                             <th>DOB</th>
                             <th>Gender</th>
                             <th>Address</th>
-                            <th>ID Type</th>
+                            <th>ID Type</th>                           
                             <th>Loan Amount</th>
                             <th>Purpose</th>
+                            <th>Collateral Type</th>
+                            <th>Collateral Loan Details</th>
+                            <th>Proof of Ownership</th>
+                            <th>Collateral Estimated Value</th>
+                            <th>Collateral Image</th>
+                            <th>Valid ID Image</th>
                             <th>Status</th>
                             <th>Submitted</th>
                             <th>Actions</th>
@@ -135,6 +152,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                 <td><?= htmlspecialchars($row['valid_id_type']) ?>: <?= htmlspecialchars($row['id_number']) ?></td>
                                 <td>₱<?= number_format($row['loan_amount'], 2) ?></td>
                                 <td><?= htmlspecialchars($row['loan_purpose']) ?></td>
+                                <td><?= htmlspecialchars($row['type_of_collateral']) ?></td>
+                                <td><?= htmlspecialchars($row['description']) ?></td>
+                                <td><?= htmlspecialchars($row['proof_of_ownership']) ?></td>
+                                <td><?= htmlspecialchars($row['estimated_value']) ?></td>
+                                <td>
+                                    <?php if (!empty($row['collateral_image'])): ?>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $row['id'] ?>_collateral">
+                                            <img src="../<?= htmlspecialchars($row['collateral_image']) ?>" alt="Collateral" class="img-thumbnail">
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-muted">No image</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if (!empty($row['id_photo_path'])): ?>
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $row['id'] ?>_id">
+                                            <img src="../<?= htmlspecialchars($row['id_photo_path']) ?>" alt="ID Photo" class="img-thumbnail">
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-muted">No image</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <span class="badge 
                                         <?= $row['status'] == 'Approved' ? 'bg-success' : 
@@ -173,6 +212,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                 </td>
                             </tr>
                             
+                            <!-- Collateral Image Modal -->
+                            <div class="modal fade" id="imageModal<?= $row['id'] ?>_collateral" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Collateral Image</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <img src="../<?= htmlspecialchars($row['collateral_image']) ?>" alt="Collateral" class="view-image-modal-img">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- ID Image Modal -->
+                            <div class="modal fade" id="imageModal<?= $row['id'] ?>_id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">ID Photo</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <img src="../<?= htmlspecialchars($row['id_photo_path']) ?>" alt="ID Photo" class="view-image-modal-img">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- Edit Modal -->
                             <div class="modal fade" id="editModal<?= $row['id'] ?>" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -184,6 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                         <div class="modal-body">
                                             <form method="POST">
                                                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                                <input type="hidden" name="id_photo_path" value="<?= htmlspecialchars($row['id_photo_path']) ?>">
                                                 
                                                 <div class="mb-3">
                                                     <label class="form-label">Full Name</label>
