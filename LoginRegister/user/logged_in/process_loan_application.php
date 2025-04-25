@@ -28,19 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_number = mysqli_real_escape_string($con, $_POST['id_number']);
     $loan_amount = (float) $_POST['loan_amount'];
     $loan_purpose = mysqli_real_escape_string($con, $_POST['loan_purpose']);
-    
-    // Corrected field names to match form
-    $collateraltype = mysqli_real_escape_string($con, $_POST['collateral_type']);
-    $collateraldesc = mysqli_real_escape_string($con, $_POST['collateral_description']);
-    $estimated_value = (float) $_POST['collateral_value'];
-    $ownership = mysqli_real_escape_string($con, $_POST['collateral_ownership']);
+    $userjob = mysqli_real_escape_string($con, $_POST['Job']);
+    $usersalary = mysqli_real_escape_string($con, $_POST['Salary']);
+    $loan_term = (int) $_POST['loan_term']; // Cast to integer
     
     // Log data for debugging
     error_log("Processing form data: " . json_encode($_POST));
     
     // Validate required fields
     if (empty($dob) || empty($gender) || empty($address) || empty($postal_code) || 
-        empty($valid_id_type) || empty($id_number) || empty($loan_amount) || empty($loan_purpose)) {
+        empty($valid_id_type) || empty($id_number) || empty($loan_amount) || empty($loan_purpose) || 
+        empty($usersalary) || empty($userjob) || empty($loan_term)) {
         $_SESSION['message'] = "All fields are required.";
         $_SESSION['message_type'] = "danger";
         header('Location: index.php');
@@ -58,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: index.php');
         exit();
     }
+
     
     // Validate loan amount
     if ($loan_amount < 5000 || $loan_amount > 100000) {
@@ -75,43 +74,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
     
-    // Handle collateral image upload - corrected for multiple file upload handling
-    $collateral_image = ''; // Changed variable name to match your database column
-    if (isset($_FILES['collateral_images']) && $_FILES['collateral_images']['error'][0] == UPLOAD_ERR_OK) {
-        $upload_dir = '../../../uploads/';
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755, true);
-        }
-
-        // Process the first image (index 0)
-        $collateral_ext = strtolower(pathinfo($_FILES['collateral_images']['name'][0], PATHINFO_EXTENSION));
-        $allowed_ext = ['jpg', 'jpeg', 'png'];
-        
-        if (!in_array($collateral_ext, $allowed_ext)) {
-            $_SESSION['message'] = "Only JPG, JPEG, and PNG files are allowed for collateral.";
-            $_SESSION['message_type'] = "danger";
-            header('Location: index.php');
-            exit();
-        }
-
-        $collateral_filename = 'collateral_' . $user_id . '_' . time() . '.' . $collateral_ext;
-        $collateral_path = $upload_dir . $collateral_filename;
-
-        if (move_uploaded_file($_FILES['collateral_images']['tmp_name'][0], $collateral_path)) {
-            $collateral_image = 'uploads/' . $collateral_filename; // Changed variable name to match your database column
-        } else {
-            error_log("Failed to move collateral image: " . print_r($_FILES['collateral_images'], true));
-            $_SESSION['message'] = "Failed to upload collateral image. Error: " . $_FILES['collateral_images']['error'][0];
-            $_SESSION['message_type'] = "danger";
-            header('Location: index.php');
-            exit();
-        }
-    } else {
-        $error_code = isset($_FILES['collateral_images']) ? $_FILES['collateral_images']['error'][0] : 'no file';
-        error_log("Collateral image upload error. Code: $error_code");
-        $_SESSION['message'] = "Collateral image upload failed. Error code: $error_code";
+    // Validate salary (must be numeric and greater than zero)
+    if (!is_numeric($usersalary) || $usersalary <= 0) {
+        $_SESSION['message'] = "Please enter a valid salary amount.";
         $_SESSION['message_type'] = "danger";
-        header('Location: dashboard.php');
+        header('Location: index.php');
+        exit();
+    }
+    
+    // Validate job field is not just whitespace
+    if (trim($userjob) === '') {
+        $_SESSION['message'] = "Please enter a valid job position.";
+        $_SESSION['message_type'] = "danger";
+        header('Location: index.php');
+        exit();
+    }
+    
+    // Validate loan term (must be one of the allowed values)
+    $allowed_terms = [3, 6, 12, 24];
+    if (!in_array($loan_term, $allowed_terms)) {
+        $_SESSION['message'] = "Please select a valid loan term (3, 6, 12, or 24 months).";
+        $_SESSION['message_type'] = "danger";
+        header('Location: index.php');
         exit();
     }
 
@@ -189,32 +173,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $application_date = date('Y-m-d H:i:s');
     
     try {
-        // Prepare the SQL statement with the correct column names from your database
+        // Prepare the SQL statement with Job, Salary and term_of_loan columns
         $sql = "INSERT INTO loan_applications (
             user_id, reference_number, full_name, contact_number, dob, gender, 
             address, postal_code, valid_id_type, id_number, id_photo_path, 
-            loan_amount, loan_purpose, type_of_collateral, description, 
-            estimated_value, proof_of_ownership, collateral_image,
-            status, application_date
+            loan_amount, loan_purpose, status, application_date, Job, Salaray, term_of_loan
         ) VALUES (
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )";
-        
+
         $stmt = $con->prepare($sql);
         if (!$stmt) {
             throw new Exception("Prepare failed: " . $con->error);
         }
-        
-        // Bind parameters with the correct parameter types and count
+
+        // Bind parameters with the correct parameter types
+        // 's' for Job, 'd' for Salary, 'i' for term_of_loan
         $stmt->bind_param(
-            "issssssssssdssdsssss", 
+            "issssssssssdssssdi",
             $user_id, $reference_number, $full_name, $contact_number, $dob, $gender,
             $address, $postal_code, $valid_id_type, $id_number, $image_path,
-            $loan_amount, $loan_purpose, $collateraltype, $collateraldesc, 
-            $estimated_value, $ownership, $collateral_image,
-            $status, $application_date
+            $loan_amount, $loan_purpose, $status, $application_date, $userjob, $usersalary, $loan_term
         );
-        
+
         // Execute statement
         if (!$stmt->execute()) {
             throw new Exception("Execute failed: " . $stmt->error);

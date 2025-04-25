@@ -224,7 +224,10 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
                 <li class="nav-item">
-                    <a class="btn btn-danger ms-4" href="#">Payment</a>
+                    <a class="btn btn-danger ms-4" href="payment.php">Payment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-danger ms-4" href="../login.php">Logout</a>
                 </li>
             </ul>
         </div>

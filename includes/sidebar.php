@@ -63,6 +63,8 @@
             <h5 class="mt-0 text-danger"> Account </h5>
             <li><a class="nav-item"><a class="nav-link" href="../../LoginRegister/user/login.php">Login</a></li>
             <li><a class="nav-item"><a class="nav-link" href="../../LoginRegister/user/registration.php">Register</a></li>
+            <hr class="my-3">
+            <!-- <li class="nav-item"><a class="nav-link" href="logged_in/history.php">loan history</a></li> -->
         </ul>
        
     </div>

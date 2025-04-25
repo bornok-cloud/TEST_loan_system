@@ -60,7 +60,7 @@
                 <div id="b2" class="card">
                     <img src="../../img/homeloan.jpg" class="card-img-top" alt="Home loan">
                     <div class="card-body">
-                        <h5 class="card-title">Home Loan</h5>
+                        <h5 class="card-title"> Loan</h5>
                         <p class="card-text"></p>
                         <a href="loantype_section/HOMELOAN.php" class="">check details</a>
                     </div>

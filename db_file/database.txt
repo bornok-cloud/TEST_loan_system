@@ -115,7 +115,7 @@ DELIMITER ;
 <______________________________________ LOAN DATABASE STRUCTURE ______________________________________>
 
 unilolo769@gmail.com
-app password: wxvx wgvl nctu esti
+app password: wxvx wgvl nctu esti, vufo vjxq ciwt crrc
 
 
 
@@ -157,20 +157,121 @@ CREATE TABLE loan_applications (
     loan_amount DECIMAL(10,2) NOT NULL,
     loan_purpose VARCHAR(255) NOT NULL,
 
-    -- Step 4: Collateral Loan
-
-
     -- Application Status
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
 
     -- Timestamp
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE loan_applications ADD COLUMN term_of_loan INT NOT NULL AFTER loan_purpose;
+CREATE TABLE IF NOT EXISTS payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    reference_number VARCHAR(50) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    transaction_id VARCHAR(50) NOT NULL,
+    payment_date DATETIME NOT NULL,
+    FOREIGN KEY (reference_number) REFERENCES loan_applications(reference_number)
+);
 
 
-ALTER TABLE loan_applications
-ADD COLUMN type_of_collateral VARCHAR(100) NOT NULL AFTER loan_purpose,
-ADD COLUMN description TEXT AFTER type_of_collateral,
-ADD COLUMN estimated_value DECIMAL(12,2) NOT NULL AFTER description,
-ADD COLUMN proof_of_ownership VARCHAR(255) AFTER estimated_value,
-ADD COLUMN image_path VARCHAR(255) AFTER proof_of_ownership;
+
+
+___________________________________________________________________________________________
+
+
+-- Create loans table for approved loans only
+CREATE TABLE loans (
+    loan_id INT AUTO_INCREMENT PRIMARY KEY,
+    application_id INT NOT NULL,
+    user_id INT NOT NULL,
+    loan_amount DECIMAL(10,2) NOT NULL,
+    interest_rate DECIMAL(5,2) NOT NULL,
+    loan_term INT NOT NULL COMMENT 'In months',
+    monthly_payment DECIMAL(10,2) NOT NULL,
+    total_repayment DECIMAL(10,2) NOT NULL,
+    remaining_amount DECIMAL(10,2) NOT NULL,
+    approval_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    next_payment_date DATE NOT NULL,
+    status ENUM('active', 'completed', 'defaulted') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (application_id) REFERENCES loan_applications(id)
+);
+
+-- Create payments table
+CREATE TABLE payments (
+    payment_id INT AUTO_INCREMENT PRIMARY KEY,
+    loan_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_method ENUM('uniqwallet', 'bank_transfer', 'debit_card') NOT NULL,
+    transaction_id VARCHAR(50) NOT NULL,
+    status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (loan_id) REFERENCES loans(loan_id)
+);
+
+-- Create trigger to move approved loans to loans table
+DELIMITER //
+CREATE TRIGGER after_loan_approval
+AFTER UPDATE ON loan_applications
+FOR EACH ROW
+BEGIN
+    -- Declare all variables first
+    DECLARE monthly_payment DECIMAL(10,2);
+    DECLARE total_repayment DECIMAL(10,2);
+    DECLARE interest_rate DECIMAL(5,2) DEFAULT 3.00; -- Fixed 3% rate
+    
+    -- Then add your logic
+    IF NEW.status = 'Approved' AND OLD.status != 'Approved' THEN
+        -- Calculate monthly payment (simple interest)
+        SET total_repayment = NEW.loan_amount * (1 + (interest_rate/100));
+        SET monthly_payment = total_repayment / 12; -- Assuming 12 month term
+        
+        -- Insert into loans table
+        INSERT INTO loans (
+            application_id,
+            user_id,
+            loan_amount,
+            interest_rate,
+            loan_term,
+            monthly_payment,
+            total_repayment,
+            remaining_amount,
+            next_payment_date
+        ) VALUES (
+            NEW.id,
+            NEW.user_id,
+            NEW.loan_amount,
+            interest_rate,
+            12, -- Example: 12 month term
+            monthly_payment,
+            total_repayment,
+            total_repayment, -- Initially remaining equals total
+            DATE_ADD(CURRENT_DATE(), INTERVAL 1 MONTH) -- First payment due in 1 month
+        );
+    END IF;
+END//
+DELIMITER ;
+
+-- Create ewallet table for user balances
+CREATE TABLE user_ewallets (
+    wallet_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    balance DECIMAL(10,2) DEFAULT 0.00,
+    pin_hash VARCHAR(255) NOT NULL,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY (user_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    reference_number VARCHAR(50) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    transaction_id VARCHAR(50) NOT NULL,
+    payment_date DATETIME NOT NULL,
+    FOREIGN KEY (reference_number) REFERENCES loan_applications(reference_number)
+);

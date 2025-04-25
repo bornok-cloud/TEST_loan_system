@@ -207,9 +207,9 @@ h1, h2, h3, h4, h5, h6 {
                     <li class="nav-item "><a class="nav-link" href="../../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="btn btn-danger ms-4" href="#">Payment</a>
-                    </li>
+                    </li> -->
                     <!-- <li class="nav-item dropdown">
                         <a class="btn btn-outline-dark dropdown-toggle ms-1" href="#" role="button" data-bs-toggle="dropdown">Account</a>
                         <ul class="dropdown-menu">

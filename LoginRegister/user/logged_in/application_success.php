@@ -169,7 +169,7 @@ ob_end_flush();
             
             <div class="text-center mt-4">
                 <p>We will review your application and get back to you within 24-48 hours.</p>
-                <a href="../../../index.php" class="btn btn-primary mt-3">Return to Dashboard</a>
+                <a href="../../../index.php" class="btn btn-light mt-3"></a>
             </div>
         </div>
     </div>

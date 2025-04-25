@@ -77,8 +77,8 @@
                     <h4><i class="fa-solid fa-wallet text-danger"></i> Get a sample cash loan computation</h4>
                     <label for="loanAmount" class="form-label">How much money do you need?</label>
                     <input type="number" id="loanAmount" class="form-control" value="30000" min="3000" max="150000">
-                    <input type="range" id="loanRange" class="form-range mt-2" min="5000" max="100000" value="30000">
-                    <p class="text-muted">Loan amount starts at ₱5,000 up to ₱100,000</p>
+                    <input type="range" id="loanRange" class="form-range mt-2" min="5000" max="30000" value="30000">
+                    <p class="text-muted">Loan amount starts at ₱5,000 up to ₱30,000</p>
                     <div class="loan-terms">
                         <p>Sample Loan Terms (months)</p>
                         <div>
@@ -86,11 +86,11 @@
                             <button class="term-btn" data-term="9">9</button>
                             <button class="term-btn" data-term="12">12</button>
                             <button class="term-btn active" data-term="24">24</button>
-                            <button class="term-btn" data-term="30">30</button>
+                            <!-- <button class="term-btn" data-term="30">30</button>
                             <button class="term-btn" data-term="36">36</button>
                             <button class="term-btn" data-term="45">45</button>
                             <button class="term-btn" data-term="48">48</button>
-                            <button class="term-btn" data-term="60">60</button>
+                            <button class="term-btn" data-term="60">60</button> -->
                         </div>
                     </div>
                 </div>

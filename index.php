@@ -660,6 +660,27 @@ h1, h2, h3, h4, h5, h6 {
 .alert-danger:hover {
   background-color: #bb2d3b;
 }
+/* Add this to your existing styles */
+.valid-id-modal .modal-header {
+            background-color: #dc3545;
+            color: white;
+        }
+        .valid-id-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .valid-id-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .valid-id-list li:last-child {
+            border-bottom: none;
+        }
+        .valid-id-category {
+            font-weight: bold;
+            color: #dc3545;
+            margin-top: 15px;
+        }
 
     </style>
 </head>
@@ -690,11 +711,11 @@ h1, h2, h3, h4, h5, h6 {
         <div class="col-md-6">
             <h3>Why choose Uniqloan for your loans?</h3>
             <ul class="check-list">
-                <li>Lowest interest & monthly rates</li>
+                <li>Low Interest Rate & monthly rates</li>
                 <li>Flexible payment options</li>
                 <li>Fast & easy application process</li>
             </ul>
-            <button class="btn btn-success">Get Installments</button>
+            <button class="btn btn-success">About Us</button>
         </div>
         <div class="col-md-6">
             <img src="img/BANNER1.jpg" class="img-fluid rounded" alt="Home Credit Assistance">
@@ -721,21 +742,70 @@ h1, h2, h3, h4, h5, h6 {
 <!--section e -->
 <section class="light">
 	<div class="container py-2">
+    <h5 class="text-danger text-center"> Uniqloan Requirements</h5>
 		<div class="h1 text-center text-dark" id="pageHeaderTitle">Basic Requirement to apply</div>
 
 		<article class="postcard light blue">
-			<a class="postcard__img_link" href="#">
-				<img class="postcard__img" src="img/ID.jpg" alt="Image Title" />
-			</a>
-			<div class="postcard__text t-dark">
-				<h1 class="postcard__title blue"><a href="LoginRegister/user/valid.php">Valid ID</a></h1>
-				<div class="postcard__subtitle small">
-				</div>
-				<!--<div class="postcard__bar"></div>-->
-				<div class="postcard__preview-txt mt-5">Must have one primary ID that contains your current address.</div>
-                <a href="LoginRegister/user/valid.php"><i class="fas fa-play mr-2"></i>View list of ID</a>
+        <a class="postcard__img_link" href="#">
+            <img class="postcard__img" src="img/ID.jpg" alt="Image Title" />
+        </a>
+        <div class="postcard__text t-dark">
+            <h1 class="postcard__title blue">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#validIdModal">Valid ID</a>
+            </h1>
+            <div class="postcard__preview-txt mt-5">Must have one primary ID that contains your current address.</div>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#validIdModal">
+                <i class="fas fa-play mr-2"></i>View list of ID
+            </a>
+        </div>
+    </article>
+    <!-- Valid ID Modal -->
+    <div class="modal fade" id="validIdModal" tabindex="-1" aria-labelledby="validIdModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content valid-id-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validIdModalLabel">List of Accepted Valid IDs</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="valid-id-category">Primary Government-Issued IDs</h6>
+                            <ul class="valid-id-list">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Passport</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Driver's License</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Senior Citizen's ID</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>PWD ID Card</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>PhilHealth ID</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Postal ID</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- <h6 class="valid-id-category">Secondary Supporting Documents</h6>
+                            <ul class="valid-id-list">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Barangay Clearance</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Police Clearance</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Voter's ID</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Company ID (for employed applicants)</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i>School ID (for students)</li>
+                            </ul> -->
+                            
+                            <h6 class="valid-id-category mt-4">Requirements</h6>
+                            <ul class="valid-id-list">
+                                <li><i class="bi bi-exclamation-circle-fill text-warning me-2"></i>ID must be valid and not expired</li>
+                                <li><i class="bi bi-exclamation-circle-fill text-warning me-2"></i>Must contain your photo and signature</li>
+                                <li><i class="bi bi-exclamation-circle-fill text-warning me-2"></i>Must show your current address</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">I Understand</button>
+                </div>
             </div>
-		</article>
+        </div>
+    </div>
 		<article class="postcard light red">
 			<a class="postcard__img_link" href="#">
 				<img class="postcard__img" src="img/PINOY.jpg" alt="Image Title" />	
@@ -768,10 +838,16 @@ h1, h2, h3, h4, h5, h6 {
             <h5 class="mt-0 text-danger"> Account </h5>
             <li><a class="nav-item"><a class="nav-link" href="LoginRegister/user/login.php">Login</a></li>
             <li><a class="nav-item"><a class="nav-link" href="LoginRegister/user/registration.php">Register</a></li>
-        </ul>
+            <hr class="my-3">
+          </ul>
        
     </div>    
-    
+     <!-- Make sure you have Bootstrap JS included -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <?php include('includes/footer.php')?>   
     <?php include('includes/script.php')?>      
 </body>

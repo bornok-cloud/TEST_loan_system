@@ -1,5 +1,5 @@
 <?php
-//include('../includes/header.php');
+// Database connection
 $host = 'localhost';
 $db = 'loan_system'; 
 $user = 'root';
@@ -11,9 +11,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Query loan applications
 $query = "SELECT * FROM loan_applications ORDER BY id DESC"; 
 $result = $conn->query($query);
 
+// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] == 'update') {
         $loan_id = intval($_POST['id']);
@@ -83,28 +85,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <button id="sidebarToggle" class="btn btn-outline-dark">☰</button>
-            <a class="navbar-brand text-danger fw-bold ms-4" href="#">UNIQLOAN</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item "><a class="nav-link" href="adminhome.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                    <li class="nav-item">
-                        <a class="btn btn-danger ms-4" href="#">Payment</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn btn-outline-dark toggle ms-1" href="../LoginRegister/user/login.php" role="button">Log out</a>
-                        
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <button id="sidebarToggle" class="btn btn-outline-dark">☰</button>
+        <a class="navbar-brand text-danger fw-bold ms-4" href="#">UNIQLOAN</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item "><a class="nav-link" href="adminhome.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Loans Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                <!-- <li class="nav-item">
+                    <a class="btn btn-danger ms-4" href="#">Payment</a>
+                </li> -->
+                <li class="nav-item dropdown">
+                    <a class="btn btn-outline-dark toggle ms-1" href="../LoginRegister/user/login.php" role="button">Log out</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
 <div class="container mt-5">
     <?php if (isset($_SESSION['message'])): ?>
         <?= $_SESSION['message'] ?>
@@ -129,12 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                             <th>ID Type</th>                           
                             <th>Loan Amount</th>
                             <th>Purpose</th>
-                            <th>Collateral Type</th>
-                            <th>Collateral Loan Details</th>
-                            <th>Proof of Ownership</th>
-                            <th>Collateral Estimated Value</th>
-                            <th>Collateral Image</th>
+                            <th>Loan Term (Months)</th> 
                             <th>Valid ID Image</th>
+                            <th>Job Position</th>
+                            <th>Monthly Salary</th>
                             <th>Status</th>
                             <th>Submitted</th>
                             <th>Actions</th>
@@ -152,19 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                 <td><?= htmlspecialchars($row['valid_id_type']) ?>: <?= htmlspecialchars($row['id_number']) ?></td>
                                 <td>₱<?= number_format($row['loan_amount'], 2) ?></td>
                                 <td><?= htmlspecialchars($row['loan_purpose']) ?></td>
-                                <td><?= htmlspecialchars($row['type_of_collateral']) ?></td>
-                                <td><?= htmlspecialchars($row['description']) ?></td>
-                                <td><?= htmlspecialchars($row['proof_of_ownership']) ?></td>
-                                <td><?= htmlspecialchars($row['estimated_value']) ?></td>
-                                <td>
-                                    <?php if (!empty($row['collateral_image'])): ?>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $row['id'] ?>_collateral">
-                                            <img src="../<?= htmlspecialchars($row['collateral_image']) ?>" alt="Collateral" class="img-thumbnail">
-                                        </a>
-                                    <?php else: ?>
-                                        <span class="text-muted">No image</span>
-                                    <?php endif; ?>
-                                </td>
+                                <td><?= htmlspecialchars($row['term_of_loan']) ?></td>
+                                
                                 <td>
                                     <?php if (!empty($row['id_photo_path'])): ?>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $row['id'] ?>_id">
@@ -174,6 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                         <span class="text-muted">No image</span>
                                     <?php endif; ?>
                                 </td>
+                                <td><?= htmlspecialchars($row['Job']) ?></td>
+                                <td><?= htmlspecialchars($row['Salaray']) ?></td>
                                 <td>
                                     <span class="badge 
                                         <?= $row['status'] == 'Approved' ? 'bg-success' : 
@@ -181,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                         <?= htmlspecialchars($row['status']) ?>
                                     </span>
                                 </td>
+                                
                                 <td>
                                     <?= date('M d, Y h:i A', strtotime($row['application_date'])) ?>
                                 </td>
@@ -211,24 +203,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                     </div>
                                 </td>
                             </tr>
-                            
-                            <!-- Collateral Image Modal -->
-                            <div class="modal fade" id="imageModal<?= $row['id'] ?>_collateral" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Collateral Image</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body text-center">
-                                            <img src="../<?= htmlspecialchars($row['collateral_image']) ?>" alt="Collateral" class="view-image-modal-img">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             
                             <!-- ID Image Modal -->
                             <div class="modal fade" id="imageModal<?= $row['id'] ?>_id" tabindex="-1" aria-hidden="true">
