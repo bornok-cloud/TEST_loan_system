@@ -58,7 +58,7 @@
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="../LoginRegister/adminhome.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="../LoginRegister/admin_borrower.php">Manage Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="user/logged_in/history.php">loan history</a></li>
+            <li class="nav-item"><a class="nav-link" href="../LoginRegister/admin_history.php">loan history</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
         </ul>
        

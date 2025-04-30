@@ -77,7 +77,7 @@
                 </div>
                 <div class="card shadow">
                     <div class="card-header">
-                        <h5>Registration Form</h5>
+                        <h5 class="text-center">Registration Form</h5>
                     </div>
                     <div class="card-body">
                     <form action="code.php" method="POST" id="registrationForm">
@@ -98,7 +98,7 @@
                             <input type="text" name="password" class="form-control" required>
                         </div>
                         <div class="form-group mt-3">
-                            <button type="submit" name="register_btn" class="btn btn-primary">Register now</button>
+                            <button type="submit" name="register_btn" class="btn btn-danger">Register now</button>
                         </div>
                     </form>
                     </div>
@@ -110,6 +110,6 @@
 
 <?php include('../../includes/sidebar.php'); ?>
 <?php include('../../includes/script.php'); ?>
-<?php include('../../includes/footer.php')?>
+
 </body>
 </html>
